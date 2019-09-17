@@ -2,19 +2,22 @@ from flask import Blueprint, abort
 
 mr = Blueprint('mr', __name__)
 
+
 @mr.route('/manager_status/', methods=['POST'])
 def manager_status():
     """
-    show the status of all users
-    :return:
+    Show the status of all users specified with POST payload.
+    Returns a str of how long the user has been active.
+    :return: str
     """
     pass
 
+
 @mr.route('/manager_move/', methods=['POST'])
-def manager_move(name):
+def manager_move():
     """
-    moves users to different teams
-    :param name:
-    :return:
+    Moves users to a different team specified with POST payload
+    type the user name and then the name of the team.
+    :return: str
     """
     pass
