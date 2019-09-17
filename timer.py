@@ -1,9 +1,9 @@
 from flask import Flask
 # Importing the different routes.
-from Routes.ProjectRoutes import pr
-from Routes.ManagerRoutes import mr
-from Routes.UserRoutes import ur
-from Routes.TeamRoutes import tr
+from Routes.project_routes import pr
+from Routes.manager_routes import mr
+from Routes.user_routes import ur
+from Routes.team_routes import tr
 
 
 app = Flask(__name__)
