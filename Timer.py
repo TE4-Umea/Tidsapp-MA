@@ -1,4 +1,5 @@
 from flask import Flask
+# Importing the different routes.
 from Routes.ProjectRoutes import pr
 from Routes.ManagerRoutes import mr
 from Routes.UserRoutes import ur
@@ -7,6 +8,7 @@ from Routes.TeamRoutes import tr
 
 app = Flask(__name__)
 
+# This Registers all the sub-routes.
 app.register_blueprint(pr)
 app.register_blueprint(tr)
 app.register_blueprint(mr)
