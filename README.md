@@ -7,3 +7,14 @@ Python was used to create the application.
 Lägg till screenshot här.
 
 ## Getting started
+
+This app was created and developed for use in Slack. As such, downloading Slack will be necessary to run it.
+
+[You can download Slack through here](https://https://slack.com/intl/en-se/downloads/windows "Slack's Download Page")
+
+Additionally, you'll need to ensure the following are properly installed and implemented.
+* Python 3.7
+* Webserver
+* DotENV
+* Flask
+* MySQL
