@@ -68,7 +68,7 @@ class TestCreateProject(unittest.TestCase):
         # This parses dictionary to a json.
         json_obj = json.dumps(payload)
 
-        # Sends a POSt request to the endpoint "/delete_project/" with the payload of json_obj.
+        # Sends a POST request to the endpoint "/delete_project/" with the payload of json_obj.
         self.app.post('/create_project/', json=json_obj)
         rv = self.app.post('/delete_project/', json=json_obj)
 
@@ -108,7 +108,7 @@ class TestCreateProject(unittest.TestCase):
             "text": "test_project2"
         })
 
-        # Sends a POSt request to the endpoint "/delete_project/" with the payload of json_obj.
+        # Sends a POST request to the endpoint "/delete_project/" with the payload of json_obj.
         self.app.post('/create_project/', json=json_obj)
         json_obj = json.dumps({
             "token": self.token,
