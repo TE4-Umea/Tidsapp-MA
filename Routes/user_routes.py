@@ -3,7 +3,7 @@ from flask import Blueprint, abort, request
 ur = Blueprint('ur', __name__)
 
 
-@ur.route('/user_status/', methods=['POST'])
+@ur.route('status', methods=['POST'])
 def status():
     """
     Returns a response as a str message with the current users status.
@@ -14,7 +14,7 @@ def status():
     pass
 
 
-@ur.route('/user_track/', methods=['POST'])
+@ur.route('track', methods=['POST'])
 def track():
     """
     Returns a response as a str message is either checked in or checked out.
@@ -24,7 +24,7 @@ def track():
     pass
 
 
-@ur.route('/user_join_project/', methods=['POST'])
+@ur.route('join/project', methods=['POST'])
 def join_project():
     """
     This will make the POST payload specified User join a specified project that will be passed through as a argument -
@@ -35,7 +35,7 @@ def join_project():
     pass
 
 
-@ur.route('/user_join_team/', methods=['POST'])
+@ur.route('join/project', methods=['POST'])
 def join_team():
     """
     This will make the POST payload specified User join a specified team that will be passed through as a argument in -

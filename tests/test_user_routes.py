@@ -27,7 +27,7 @@ class TestCreateProject(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user_status/', json=json_obj)
+        rv = self.app.post('/user/status', json=json_obj)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -48,7 +48,7 @@ class TestCreateProject(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user_status/', json=json_obj)
+        rv = self.app.post('/user/status', json=json_obj)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -69,7 +69,7 @@ class TestCreateProject(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user_track/', json=json_obj)
+        rv = self.app.post('/user/track', json=json_obj)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -91,7 +91,7 @@ class TestCreateProject(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user_track/', json=json_obj)
+        rv = self.app.post('/user/track', json=json_obj)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -112,7 +112,7 @@ class TestCreateProject(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user_join_project/', json=json_obj)
+        rv = self.app.post('/user/join/project', json=json_obj)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -123,7 +123,7 @@ class TestCreateProject(unittest.TestCase):
         """
         This tries to join a nonexistent project
         Expected outcome is a return status of 200 and an error message saying:
-        `Error has occured. The specified project does not exist`
+        `Error has occurred. The specified project does not exist`
         """
         # Python dictionary
         payload = {
@@ -133,12 +133,12 @@ class TestCreateProject(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user_join_project/', json=json_obj)
+        rv = self.app.post('/user/join/project', json=json_obj)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
         # Asserts that the response is what is expected.
-        self.assertEqual(rv.data, "Error has occured. The specified project does not exist")
+        self.assertEqual(rv.data, "Error has occurred. The specified project does not exist")
 
     def test_user_join_team(self):
         """
@@ -155,7 +155,7 @@ class TestCreateProject(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user_join_team/', json=json_obj)
+        rv = self.app.post('/user/join/team', json=json_obj)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -166,7 +166,7 @@ class TestCreateProject(unittest.TestCase):
         """
         This tries to join a nonexistent team
         Expected outcome is a return status of 200 and an error message saying:
-        `Error has occured. The specified team does not exist`
+        `Error has occurred. The specified team does not exist`
         """
         # Python dictionary
         payload = {
@@ -177,9 +177,9 @@ class TestCreateProject(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user_join_team/', json=json_obj)
+        rv = self.app.post('/user/join/team', json=json_obj)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
         # Asserts that the response is what is expected.
-        self.assertEqual(rv.data, "Error has occured. The specified team does not exist")
+        self.assertEqual(rv.data, "Error has occurred. The specified team does not exist")

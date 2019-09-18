@@ -28,7 +28,7 @@ class TestManagerStatus(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to get the "/manager_status/" endpoint
-        maru = self.app.post('/manager_status/', json=json_obj)
+        maru = self.app.post('/manager/status', json=json_obj)
 
         # Makes sure that the response status is 200.
         assert maru.status == '200 OK'
@@ -53,7 +53,7 @@ class TestManagerStatus(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to get the "/manager_status/" endpoint
-        maru = self.app.post('/manager_status/', json=json_obj)
+        maru = self.app.post('/manager/status', json=json_obj)
 
         # Makes sure that the response status is 200.
         assert maru.status == '200 OK'
@@ -77,7 +77,7 @@ class TestManagerStatus(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to get the "/manager_move/" endpoint
-        maru = self.app.post('/manager_move/', json=json_obj)
+        maru = self.app.post('/manager/move', json=json_obj)
 
         # Makes sure that the response status is 200.
         assert maru.status == '200 OK'

@@ -3,18 +3,19 @@ from dotenv import load_dotenv
 
 # Importing the different routes.
 from Routes.project_routes import pr
+from Routes.team_routes import tr
 from Routes.manager_routes import mr
 from Routes.user_routes import ur
-from Routes.team_routes import tr
+
 load_dotenv()
 
 app = Flask(__name__)
 
 # This Registers all the sub-routes.
-app.register_blueprint(pr)
-app.register_blueprint(tr)
-app.register_blueprint(mr)
-app.register_blueprint(ur)
+app.register_blueprint(pr, url_prefix='/project/')
+app.register_blueprint(tr, url_prefix='/team/')
+app.register_blueprint(mr, url_prefix='/manager/')
+app.register_blueprint(ur, url_prefix='/user/')
 
 app.run()
 

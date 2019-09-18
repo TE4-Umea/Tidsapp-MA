@@ -3,7 +3,7 @@ from flask import Blueprint, abort, request
 tr = Blueprint('tr', __name__)
 
 
-@tr.route('/create_team/', methods=['POST'])
+@tr.route('create', methods=['POST'])
 def create_team():
     """
     Creates a new team with the name of name specified in POST payload.

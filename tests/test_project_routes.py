@@ -26,7 +26,7 @@ class TestCreateProject(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to get the create project endpoint
-        rv = self.app.post('/create_project/', json=json_obj)
+        rv = self.app.post('/project/create', json=json_obj)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -48,7 +48,7 @@ class TestCreateProject(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to the endpoint "/delete_project/" with the payload of json_obj.
-        rv = self.app.post('/delete_project/', json=json_obj)
+        rv = self.app.post('/project/delete', json=json_obj)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -70,8 +70,8 @@ class TestCreateProject(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to the endpoint "/delete_project/" with the payload of json_obj.
-        self.app.post('/create_project/', json=json_obj)
-        rv = self.app.post('/delete_project/', json=json_obj)
+        self.app.post('/project/create', json=json_obj)
+        rv = self.app.post('/project/delete', json=json_obj)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -110,12 +110,12 @@ class TestCreateProject(unittest.TestCase):
         })
 
         # Sends a POST request to the endpoint "/delete_project/" with the payload of json_obj.
-        self.app.post('/create_project/', json=json_obj)
+        self.app.post('/project/create', json=json_obj)
         json_obj = json.dumps({
             "token": self.token,
             "text": find_project + " test_project_updated"
         })
-        return self.app.post('/update_project/', json=json_obj)
+        return self.app.post('/project/update', json=json_obj)
 
     def test_display_projects(self):
         """
