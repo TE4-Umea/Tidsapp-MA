@@ -97,4 +97,25 @@ class TestCreateProject(unittest.TestCase):
         # Asserts that the response is what is expected.
         self.assertEqual(rv.data, "Error has occurred, The specified token is invalid")
 
+    def test_user_join_project(self):
+        """
+        This allows the user to join a project of their choosing.
+        Expected outcome is a return status of 200 and a message saying:
+        `Project successfully joined.`
+        """
+        # Python dictionary
+        payload = {
+            "token": self.token
+        }
+        # This parses dictionary to a json.
+        json_obj = json.dumps(payload)
+
+        # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
+        rv = self.app.post('/user_status/', json=json_obj)
+
+        # Makes sure that the response status is 200.
+        self.assertTrue(rv.status == '200 OK')
+        # Asserts that the response is what is expected.
+        self.assertEqual(rv.data, "Project successfully joined.")
+
     
