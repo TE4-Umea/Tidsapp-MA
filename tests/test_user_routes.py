@@ -149,6 +149,7 @@ class TestCreateProject(unittest.TestCase):
         # Python dictionary
         payload = {
             "token": self.token
+            ""
         }
         # This parses dictionary to a json.
         json_obj = json.dumps(payload)
@@ -169,7 +170,8 @@ class TestCreateProject(unittest.TestCase):
         """
         # Python dictionary
         payload = {
-            "token": self.token
+            "token": self.token,
+            "text": "test_team0"
         }
         # This parses dictionary to a json.
         json_obj = json.dumps(payload)
