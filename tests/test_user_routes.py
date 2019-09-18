@@ -74,7 +74,8 @@ class TestCreateProject(unittest.TestCase):
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
         # Asserts that the response is what is expected.
-        self.assertDictEqual(len(rv.data) > 0) #FIXA DETTA
+        self.assertTrue(rv.data == ("Success. Time tracking is now active." or
+                                    "Success. Time tracking is now inactive."))
 
     def test_badtoken_user_track(self):
         """
