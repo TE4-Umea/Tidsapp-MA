@@ -1,4 +1,4 @@
-from flask import Blueprint, abort
+from flask import Blueprint, abort, request
 
 pr = Blueprint('pr', __name__)
 
