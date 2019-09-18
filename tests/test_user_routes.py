@@ -34,7 +34,7 @@ class TestCreateProject(unittest.TestCase):
         # Asserts that the response is what is expected.
         self.assertTrue(len(rv.data) > 0)
 
-    def test_badtoken_user_status(self):
+    def test_bad_token_user_status(self):
         """
         This tries to check a users status with a bad token.
         Expected outcome is a return status of 200 and an error message saying.
