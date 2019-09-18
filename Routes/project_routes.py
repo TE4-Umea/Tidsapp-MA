@@ -4,7 +4,7 @@ pr = Blueprint('pr', __name__)
 
 
 @pr.route('/create_project/', methods=['POST'])
-def create_project(name):
+def create_project():
     """
     Creates a new project for a user with the name specified in POST payload.
     Returns a response as a str message, redirects response from error if it fails.
