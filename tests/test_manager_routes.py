@@ -12,7 +12,7 @@ class TestManagerStatus(unittest.TestCase):
     def test_manager_specified_status(self):
         """
         Show status of the specified user with post.
-        Expected outcome to print a list of username and time user has spent.
+        Expected outcome: to print a list of users and time they have spent.
         :return:
         """
         # Python dictionary
@@ -31,13 +31,13 @@ class TestManagerStatus(unittest.TestCase):
         # Makes sure that the response status is 200.
         assert maru.status == '200 OK'
 
-        # Asserts that the response is the what is expected.
+        # Asserts that the response is the what to be expected.
         self.assertTrue(len(maru.data) > 0)
 
     def test_manager_status(self):
         """
         Show status of every user.
-        Expected outcome to print a list of username and time user has spent.
+        Expected outcome: to print a list of users and time they have spent.
         :return:
         """
         # Python dictionary
@@ -56,7 +56,7 @@ class TestManagerStatus(unittest.TestCase):
         # Makes sure that the response status is 200.
         assert maru.status == '200 OK'
 
-        # Asserts that the response is the what is expected.
+        # Asserts that the response is the what to be expected.
         self.assertTrue(len(maru.data) > 0)
 
     def test_manager_move(self):
@@ -79,7 +79,7 @@ class TestManagerStatus(unittest.TestCase):
 
         # Makes sure that the response status is 200.
         assert maru.status == '200 OK'
-        
-        # Asserts that the response is the what is expected.
+
+        # Asserts that the response is the what to be expected.
         self.assertTrue(len(maru.data) > 0)
         self.assertEqual(maru.data, "Moving userName to teamName")
