@@ -3,7 +3,7 @@ from flask import Blueprint, abort, request
 mr = Blueprint('mr', __name__)
 
 
-@mr.route('/manager_status/', methods=['POST'])
+@mr.route('status', methods=['POST'])
 def manager_status():
     """
     Show the status of all users specified with POST payload.
@@ -13,7 +13,7 @@ def manager_status():
     pass
 
 
-@mr.route('/manager_move/', methods=['POST'])
+@mr.route('move', methods=['POST'])
 def manager_move():
     """
     Moves users to a different team specified with POST payload
