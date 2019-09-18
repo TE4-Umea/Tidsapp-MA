@@ -1,6 +1,6 @@
 
 class DbConnector:
-    import mysql.connector
+    import mysql.connector as mysql
 
     def __init__(self):
         """
