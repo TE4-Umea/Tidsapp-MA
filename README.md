@@ -1,13 +1,19 @@
 # Timeapp-MA
 
-We have created a time tracking app in Slack. Its purpose is the facilitation of organized and effective labour in workplace environments by tracking time spent working in general and on specific projects.The app contains several commands, for both management and standard users, that, among other things, allow for the creation and configuration of teams and various projects as well as viewing valuable statistics concerning time spent working.Python was used to create the application.
+We have created a time tracking app in Slack. Its purpose is the facilitation of organized and effective labour in workplace environments by tracking time spent working in general and on specific projects.The app contains several commands, for both management and standard users, that, among other things, allow for the creation and configuration of teams and various projects as well as viewing valuable statistics concerning time spent working.
+Python was used to create the application.
 
 ## Dependancies
 * Python 3.7 (or newer)
-* Webserver
-
-## PIP Dependancies
-* DotENV
-* Flask
-* MySQL Connector
-
+* Some kind of server
+* Docker (Optional (Currently in development))
+## Python package Dependancies
+* [DotENV](https://github.com/theskumar/python-dotenv)
+* [Flask](https://pypi.org/project/Flask/)
+* [MySQL Connector](https://pypi.org/project/mysql-connector-python/)
+## Quick start
+Getting started with the flask server you'll need the Python dependancies above.
+For a more detailed guide on getting started see the [wiki page](https://github.com/te4umea2019/Tidsapp-MA/wiki/Installation)
+After installing the dependancies and cloning the repository, starting the server is as easy as opening a terminal in the folder and writing ``python3 timer.py``
+## Even Quicker start using docker (Currently in development)
+Future Versions of this program will have a docker image available on DockerHub to easily start a this framework.
