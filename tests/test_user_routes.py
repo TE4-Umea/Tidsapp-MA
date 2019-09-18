@@ -76,4 +76,25 @@ class TestCreateProject(unittest.TestCase):
         # Asserts that the response is what is expected.
         self.assertDictEqual(len(rv.data) > 0) #FIXA DETTA
 
-   
+    def test_badtoken_user_track(self):
+        """
+        This tries toggling tracking the users time with a bad token.
+        Expected outcome is a return status of 200 and a error message saying.
+        `Error has occurred, The specified token is invalid`
+        """
+        # Python dictionary
+        payload = {
+            "token": self.token
+        }
+        # This parses dictionary to a json.
+        json_obj = json.dumps(payload)
+
+        # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
+        rv = self.app.post('/user_track/', json=json_obj)
+
+        # Makes sure that the response status is 200.
+        self.assertTrue(rv.status == '200 OK')
+        # Asserts that the response is what is expected.
+        self.assertEqual(rv.data, "Error has occurred, The specified token is invalid")
+
+    
