@@ -159,3 +159,24 @@ class TestCreateProject(unittest.TestCase):
         self.assertTrue(rv.status == '200 OK')
         # Asserts that the response is what is expected.
         self.assertEqual(rv.data, "Team successfully joined.")
+
+    def test_user_join__nonexistent_team(self):
+        """
+        This tries to join a nonexistent team
+        Expected outcome is a return status of 200 and an error message saying:
+        `Error has occured. The specified team does not exist`
+        """
+        # Python dictionary
+        payload = {
+            "token": self.token
+        }
+        # This parses dictionary to a json.
+        json_obj = json.dumps(payload)
+
+        # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
+        rv = self.app.post('/user_join_team/', json=json_obj)
+
+        # Makes sure that the response status is 200.
+        self.assertTrue(rv.status == '200 OK')
+        # Asserts that the response is what is expected.
+        self.assertEqual(rv.data, "Error has occured. The specified team does not exist")
