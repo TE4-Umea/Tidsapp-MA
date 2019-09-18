@@ -31,4 +31,4 @@ class TestDbConnector(TestCase):
         Tests to send a query to and checks that there is a response.
         """
         connector = DbConnector()
-        self.assertTrue(connector.send_query("Show tables;"))
+        self.assertTrue(len(connector.send_query("Show tables;")) > 0)
