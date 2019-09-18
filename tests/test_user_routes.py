@@ -37,7 +37,7 @@ class TestCreateProject(unittest.TestCase):
     def test_badtoken_user_status(self):
         """
         This tries to check a users status with a bad token.
-        Expected outcome is a return status of 200 and a error message saying.
+        Expected outcome is a return status of 200 and an error message saying.
         `Error has occurred, The specified token is invalid`
         """
         # Python dictionary
@@ -79,7 +79,7 @@ class TestCreateProject(unittest.TestCase):
     def test_badtoken_user_track(self):
         """
         This tries toggling tracking the users time with a bad token.
-        Expected outcome is a return status of 200 and a error message saying.
+        Expected outcome is a return status of 200 and an error message saying.
         `Error has occurred, The specified token is invalid`
         """
         # Python dictionary
@@ -111,11 +111,30 @@ class TestCreateProject(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user_status/', json=json_obj)
+        rv = self.app.post('/user_join_project/', json=json_obj)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
         # Asserts that the response is what is expected.
         self.assertEqual(rv.data, "Project successfully joined.")
 
-    
+    def test_user_join__nonexistent_project(self):
+        """
+        This tries to join a nonexistent project
+        Expected outcome is a return status of 200 and an error message saying:
+        `Error has occured. The specified project does not exist`
+        """
+        # Python dictionary
+        payload = {
+            "token": self.token
+        }
+        # This parses dictionary to a json.
+        json_obj = json.dumps(payload)
+
+        # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
+        rv = self.app.post('/user_join_project/', json=json_obj)
+
+        # Makes sure that the response status is 200.
+        self.assertTrue(rv.status == '200 OK')
+        # Asserts that the response is what is expected.
+        self.assertEqual(rv.data, "Error has occured. The specified project does not exist")
