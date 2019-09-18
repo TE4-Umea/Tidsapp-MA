@@ -1,15 +1,15 @@
 import unittest
 import json
-import flask
-
-import util
+import os
 from timer import app
 
 
 class TestCreateProject(unittest.TestCase):
     def setUp(self):
+        from dotenv import load_dotenv
+        load_dotenv()
         self.app = app.test_client()
-        self.token = util.get_env("token")
+        self.token = os.getenv("token")
 
     def test_user_status(self):
         """
@@ -77,7 +77,7 @@ class TestCreateProject(unittest.TestCase):
         self.assertTrue(rv.data == ("Success. Time tracking is now active." or
                                     "Success. Time tracking is now inactive."))
 
-    def test_badtoken_user_track(self):
+    def test_bad_token_user_track(self):
         """
         This tries toggling tracking the users time with a bad token.
         Expected outcome is a return status of 200 and an error message saying.
@@ -148,8 +148,8 @@ class TestCreateProject(unittest.TestCase):
         """
         # Python dictionary
         payload = {
-            "token": self.token
-            ""
+            "token": self.token,
+            "text": "test_team"
         }
         # This parses dictionary to a json.
         json_obj = json.dumps(payload)

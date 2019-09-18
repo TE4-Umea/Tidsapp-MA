@@ -1,13 +1,15 @@
 import unittest
 import json
+import os
 from timer import app
-import util
 
 
 class TestManagerStatus(unittest.TestCase):
     def setUp(self):
+        from dotenv import load_dotenv
+        load_dotenv()
         self.app = app.test_client()
-        self.token = util.get_env("token")
+        self.token = os.getenv("token")
 
     def test_manager_specified_status(self):
         """

@@ -1,4 +1,7 @@
 from flask import Flask
+from dotenv import load_dotenv
+
+load_dotenv()
 # Importing the different routes.
 from Routes.project_routes import pr
 from Routes.manager_routes import mr
