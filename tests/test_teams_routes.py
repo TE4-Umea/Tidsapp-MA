@@ -14,7 +14,7 @@ class TestCreateTeam(unittest.TestCase):
         """
         This tries to create a team.
         The expected outcome is the return statement '200 OK'
-        And the message 'Created team successfully' or
+        And the message 'Team created successfully' or
         'Error has occurred, Something went wrong'
         """
         # This parses dictionary to a json.
@@ -38,7 +38,7 @@ class TestCreateTeam(unittest.TestCase):
         # Makes sure that the response status is 200.
         assert rv.status == '200 OK'
         # Asserts that the response is the what is expected.
-        self.assertEqual(rv.data.decode(), "Created team successfully")
+        self.assertEqual(rv.data.decode(), "Team created successfully")
 
     def test_delete_non_existent_team(self):
         """

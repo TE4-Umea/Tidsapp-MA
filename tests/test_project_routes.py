@@ -15,15 +15,22 @@ class TestCreateProject(unittest.TestCase):
         """
         This creates a project with the name "test_project" and checks the response.
         Expected outcome is a return status of 200 and a message saying:
-        `Project successfully created. It's named: test_project`.
+        `Created project successfully`.
         """
-        # Python dictionary
-        payload = {
-            "token": self.token,
-            "text": "test_project"
-        }
         # This parses dictionary to a json.
-        json_obj = json.dumps(payload)
+        json_obj = json.dumps({
+            "token": self.token,
+            "team_id": "TM1TFDZH8",
+            "team_domain": "te4umea",
+            "channel_id": "DN0C7A2G0",
+            "channel_name": "directmessage",
+            "user_id": "UMU0VSDSANH09",
+            "user_name": "test.testsson",
+            "command": "/erdemo",
+            "text": "new_project",
+            "response_url": "https://hooks.slack.com/commands/TM1TFDZH8/748738219890/YGPnRsJuBqhFn5jHycboGC2C",
+            "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
+        })
 
         # Sends a POST request to get the create project endpoint
         rv = self.app.post('/project/create', json=json_obj)
@@ -31,7 +38,7 @@ class TestCreateProject(unittest.TestCase):
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
         # Asserts that the response is the what is expected.
-        self.assertEqual(rv.data, "Project successfully created. It's named: test_project")
+        self.assertEqual(rv.data.decode(), "Project created successfully")
 
     def test_delete_non_existent_project(self):
         """
