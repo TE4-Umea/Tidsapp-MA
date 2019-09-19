@@ -1,5 +1,5 @@
 CREATE TABLE `users` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
   `checked_in` boolean,
   `admin` boolean,
@@ -9,7 +9,7 @@ CREATE TABLE `users` (
 );
 
 CREATE TABLE `tracking` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `checked_in` boolean,
   `user_id` int,
   `project_id` int,
@@ -17,12 +17,12 @@ CREATE TABLE `tracking` (
 );
 
 CREATE TABLE `project` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255)
 );
 
 CREATE TABLE `teams` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255)
 );
 
