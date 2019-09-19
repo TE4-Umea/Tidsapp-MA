@@ -13,17 +13,16 @@ def create_team():
     Returns a response as a str message, redirects response from error if it fails.
     :rtype: str
     """
+    # loads payload as json then converts it to a dictionary
     req = json.loads(request.get_json(force=True))
-    print(req['text'])
+    # Checks if the team dosen't exist
     if not team_exists(req['text']):
+        # If it doesnt exists it goes here
         response = DbConnector().send_query("INSERT INTO teams (`id`, `name`) VALUES (NULL, %s)", (req['text'],))
-
+        # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response != "1 row(s) affected.":
             return "Error has occurred, Something went wrong"
-        return "Created team successfully"
-
-    else:
-        return "Created team successfully"
+    return "Created team successfully"
 
 
 @tr.route('delete', methods=['POST'])
