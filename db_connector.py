@@ -46,12 +46,16 @@ class DbConnector:
         Sends a query to the database and returns the response.
         :rtype: arr
         """
-        cursor = self.get_connection().cursor()
+
+        cursor = self.mysql.cursor()
         if params is None:
             cursor.execute(query)
+            if not cursor.with_rows:
+                self.mysql.commit()
         else:
             cursor.execute(query, params)
-            self.get_connection().commit()
+            if not cursor.with_rows:
+                self.mysql.commit()
         if cursor.with_rows:
             return cursor.fetchall()
         return str(cursor.rowcount) + " row(s) affected."
