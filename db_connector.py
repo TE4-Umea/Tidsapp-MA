@@ -1,13 +1,11 @@
-
 class DbConnector:
-    import mysql.connector as mysql
-
     def __init__(self):
         """
         Declares a mysql connector session variable and opens a session.
         :rtype: void
         """
-        pass
+        self.mysql = None
+        self.open_connection()
 
     def open_connection(self):
         """
@@ -15,7 +13,16 @@ class DbConnector:
         Returns true if session is already active.
         :rtype: bool
         """
-        pass
+        import mysql.connector as mysql
+        import os
+        self.mysql = mysql.connect(
+            host=os.getenv("DB_HOST"),
+            port=int(os.getenv("DB_PORT")),
+            user=os.getenv("DB_USERNAME"),
+            passwd=os.getenv("DB_PASSWORD"),
+            database=os.getenv("DB_NAME")
+        )
+        return self.mysql.is_connected()
 
     def close_connection(self):
         """
@@ -23,18 +30,28 @@ class DbConnector:
         Returns true if connection is already closed.
         :rtype: bool
         """
-        pass
+
+        self.mysql.close()
+        return not self.mysql.is_connected()
 
     def get_connection(self):
         """
         Returns the mysql connector object as object.
         :rtype: mysql.connector
         """
-        pass
-    
-    def send_query(self, query):
+        return self.mysql
+
+    def send_query(self, query, params=None):
         """
         Sends a query to the database and returns the response.
         :rtype: arr
         """
-        pass
+        cursor = self.get_connection().cursor()
+        if params is None:
+            cursor.execute(query)
+        else:
+            cursor.execute(query, params)
+            self.get_connection().commit()
+        if cursor.with_rows:
+            return cursor.fetchall()
+        return str(cursor.rowcount) + " row(s) affected."

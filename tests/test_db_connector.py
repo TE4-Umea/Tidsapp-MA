@@ -3,6 +3,10 @@ from db_connector import DbConnector
 
 
 class TestDbConnector(TestCase):
+    def setUp(self):
+        from dotenv import load_dotenv
+        load_dotenv()
+
     def test_open_connection(self):
         """
         Tests to check that a dbConnector returns true when trying to open a connection.
@@ -24,11 +28,25 @@ class TestDbConnector(TestCase):
         """
         import mysql.connector as mysql
         connector = DbConnector()
-        self.assertEqual(mysql, connector.get_connection())
+        self.assertTrue(connector.get_connection() is not None)
 
     def test_send_query(self):
         """
         Tests to send a query to and checks that there is a response.
         """
         connector = DbConnector()
-        self.assertTrue(len(connector.send_query("Show tables;")) > 0)
+        response = connector.send_query("Show tables;")
+        self.assertTrue(len(response) > 0)
+
+    def test_send_insert_query(self):
+        """
+        Tests sending a insert query to the database to see what response the database gives.
+        :return: 
+        """
+        connector = DbConnector()
+        sql = "INSERT INTO teams (name) VALUES (%s)"
+        val = ["John"]
+        response = connector.send_query(sql, val)
+        print(response)
+        self.assertTrue(len(response) > 0)
+        self.assertEqual(response, "1 row(s) affected.")
