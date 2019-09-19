@@ -1,6 +1,6 @@
 CREATE TABLE `users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `user_id` int UNIQUE,
+  `user_id` varchar(255) UNIQUE,
   `name` varchar(255),
   `checked_in` boolean,
   `admin` boolean,
