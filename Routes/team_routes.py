@@ -22,7 +22,7 @@ def create_team():
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response != "1 row(s) affected.":
             return "Error has occurred, Something went wrong"
-    return "Created team successfully"
+    return "Team created successfully"
 
 
 @tr.route('delete', methods=['POST'])
