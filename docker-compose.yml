@@ -1,0 +1,34 @@
+version: '1'
+
+services:
+  nginx:
+    image: nginx:latest
+    depends_on:
+    - time_app
+    ports:
+    - "80:80"
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+
+  time_app:
+    image: time_app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'timeapp'
+      MYSQL_USER: 'timeapp'
+      MYSQL_PASSWORD: 'timeapp'
+      MYSQL_ROOT_PASSWORD: 'timeapp'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where the data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
+# Names our volume
+volumes:
+  my-db:
