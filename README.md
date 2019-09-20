@@ -16,8 +16,8 @@ Getting started with the flask server you'll need the Python dependancies above.
 For a more detailed guide on getting started see the [wiki page](https://github.com/te4umea2019/Tidsapp-MA/wiki/Installation)
 After installing the dependancies and cloning the repository, starting the server is as easy as opening a terminal in the folder and writing ``python3 timer.py``
 ## Even Quicker start using docker (docker-compose)
-For quickly getting this Repo simply do
-```
+For quickly running this app simply run
+```bash
 $ git clone https://github.com/te4umea2019/Tidsapp-MA.git
 $ cd Tidsapp-MA
 $ docker-compose up -d
