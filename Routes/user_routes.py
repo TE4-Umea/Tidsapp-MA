@@ -14,7 +14,10 @@ def status():
     Redirects response from error if it fails.
     :rtype: str
     """
-    pass
+    req = json.loads(request.get_json(force=True))
+    validate_user(req)
+
+    return get_status(req['user_id'])
 
 
 @ur.route('track', methods=['POST'])
@@ -96,6 +99,24 @@ def join_team():
     return "Error has occurred. The specified team does not exist."
 
 
+def get_id(user_id):
+    """
+    This will get the user id if a user with that specified user_id exists.
+    :rtype: int: the id for the specific user.
+    """
+    res = DbConnector().send_query("SELECT `id` FROM users WHERE `user_id` = %s", (user_id,))
+    return res[0][0]
+
+
+def get_user_id(name):
+    """
+    This will get the user_id if a user with that specified name exists.
+    :rtype: str: user_id for the specific user.
+    """
+    res = DbConnector().send_query("SELECT `user_id` FROM users WHERE `name` = %s", (name,))
+    return res[0][0]
+
+
 def user_exists(user_id):
     """
     This will check if a user exists by the user_id.
@@ -138,3 +159,64 @@ def parse_name(user_name):
     """
     user_name = str.replace(user_name, ".", " ")
     return user_name.title()
+
+
+def get_status(user_id):
+    """
+    Gets the status message for a specific user id.
+    :rtype: str
+    """
+    # Gets user id by its user_id
+    # Gets the two latest tracks and if the latest was check_in compare the difference with timestamp now,
+    # else compare the the difference in time between the two latest tracking inserts for that specific user.
+
+    # Response should look something like this:
+    # Status for User name.
+    # Currently checked in (out),
+    # Time worked today: x hours and y minutes
+    time_worked = get_worked_time(get_id(user_id))
+    name = DbConnector().send_query("SELECT `name` FROM users WHERE `user_id` = %s", (user_id,))[0][0]
+    output = "Status for " + name + ".\n"
+    output += "Currently checked " + ("in" if time_worked[1] else "out") + ".\n"
+    output += "Time worked today: " + time_worked[0] + "."
+    print(output)
+    return output
+
+
+def get_worked_time(user_id):
+    """
+    Gets the time worked in a day for the specific user.id as a string.
+    :rtype: str
+    """
+    import datetime
+    response = DbConnector().send_query(
+        "SELECT * FROM `tracking` WHERE `user_id` = %s ORDER BY id DESC LIMIT 2",
+        (user_id,)
+    )
+    # If checked_in is true then else.
+    if len(response) > 0:
+        if response[0][1]:
+
+            latest_timestamp = response[0][4]
+            # Gives a time delta object with the difference
+            difference = datetime.datetime.utcnow() - latest_timestamp
+            return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), response[0][1]
+        else:
+            check_out_timestamp = response[0][4]
+            check_in_timestamp = response[1][4]
+            difference = check_out_timestamp - check_in_timestamp
+            return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), response[0][1]
+    return "0 Hours 0 Minutes"
+
+
+def _str_format_delta(t_delta, fmt):
+    """
+    This is borrowed from stackoverflow and it parses a datetime.delta object to a string.
+    :param t_delta: datetime.delta object
+    :param fmt: the specified format example: {hours}:{minutes}:{seconds}
+    :return: str returns a string with the parsed values.
+    """
+    d = {"days": t_delta.days}
+    d["hours"], rem = divmod(t_delta.seconds, 3600)
+    d["minutes"], d["seconds"] = divmod(rem, 60)
+    return fmt.format(**d)
