@@ -127,7 +127,17 @@ class TestCreateProject(unittest.TestCase):
         """
         # Python dictionary
         payload = {
-            "token": self.token
+            "token": self.token,
+            "team_id": "TM1TFDZH8",
+            "team_domain": "te4umea",
+            "channel_id": "DN0C7A2G0",
+            "channel_name": "directmessage",
+            "user_id": "U2U0VFADSS09",
+            "user_name": "test.testsson",
+            "command": "\/erdemo",
+            "text": "test_project_that_does_not_exist",
+            "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
+            "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
         }
         # This parses dictionary to a json.
         json_obj = json.dumps(payload)
@@ -138,7 +148,7 @@ class TestCreateProject(unittest.TestCase):
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
         # Asserts that the response is what is expected.
-        self.assertEqual(rv.data, "Error has occurred. The specified project does not exist")
+        self.assertEqual(rv.data.decode(), "Error has occurred. The specified project does not exist")
 
     def test_user_join_team(self):
         """
@@ -147,39 +157,90 @@ class TestCreateProject(unittest.TestCase):
         `Team successfully joined.`
         """
         # Python dictionary
-        payload = {
+        payload = json.dumps({
             "token": self.token,
-            "text": "test_team"
-        }
-        # This parses dictionary to a json.
-        json_obj = json.dumps(payload)
-
+            "team_id": "TM1TFDZH8",
+            "team_domain": "te4umea",
+            "channel_id": "DN0C7A2G0",
+            "channel_name": "directmessage",
+            "user_id": "U2U0VFADSS09",
+            "user_name": "test.testsson",
+            "command": "\/erdemo",
+            "text": "test_team",
+            "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
+            "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
+        })
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user/join/team', json=json_obj)
+        rv = self.app.post('/user/join/team', json=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
         # Asserts that the response is what is expected.
-        self.assertEqual(rv.data, "Team successfully joined.")
+        self.assertEqual(rv.data.decode(), 'Team successfully joined.')
 
     def test_user_join__nonexistent_team(self):
         """
         This tries to join a nonexistent team
         Expected outcome is a return status of 200 and an error message saying:
-        `Error has occurred. The specified team does not exist`
+        `Error has occurred. The specified team does not exist.`
         """
         # Python dictionary
-        payload = {
+        payload = json.dumps({
             "token": self.token,
-            "text": "test_team0"
-        }
-        # This parses dictionary to a json.
-        json_obj = json.dumps(payload)
+            "team_id": "TM1TFDZH8",
+            "team_domain": "te4umea",
+            "channel_id": "DN0C7A2G0",
+            "channel_name": "directmessage",
+            "user_id": "U2U0VFAS09",
+            "user_name": "test.testsson",
+            "command": "\/erdemo",
+            "text": "",
+            "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
+            "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
+        })
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user/join/team', json=json_obj)
+        rv = self.app.post('/user/join/team', json=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
         # Asserts that the response is what is expected.
-        self.assertEqual(rv.data, "Error has occurred. The specified team does not exist")
+        self.assertEqual(rv.data.decode(), "Error has occurred. The specified team does not exist.")
+
+    def test_user_check_non_existent(self):
+        """
+        This test will check whether a non existent user exists in the database.
+        Expected response: 'False'
+        """
+        from Routes.user_routes import user_exists
+
+        self.assertTrue(not user_exists("U2U0VFasAS09"))
+
+    def test_user_check(self):
+        """
+        This test will check whether a existent user exists in the database.
+        Expected response: 'False'
+        """
+        from Routes.user_routes import user_exists
+        payload = json.dumps({
+            "token": self.token,
+            "team_id": "TM1TFDZH8",
+            "team_domain": "te4umea",
+            "channel_id": "DN0C7A2G0",
+            "channel_name": "directmessage",
+            "user_id": "U2U0VFAS09",
+            "user_name": "test.testsson",
+            "command": "\/erdemo",
+            "text": "",
+            "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
+            "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
+        })
+        self.assertTrue(user_exists("U2U0VFAS09"))
+
+    def test_parse_name(self):
+        """
+        This tests that the parse name function parses names correctly.
+        Expected input in this format, 'test.testsson' expected output 'Test Testsson'.
+        """
+        from Routes.user_routes import parse_name
+        self.assertEqual(parse_name("test.testsson"), "Test Testsson")
