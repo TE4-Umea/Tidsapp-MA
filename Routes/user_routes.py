@@ -108,6 +108,15 @@ def get_id(user_id):
     return res[0][0]
 
 
+def get_user_id(name):
+    """
+    This will get the user_id if a user with that specified name exists.
+    :rtype: str: user_id for the specific user.
+    """
+    res = DbConnector().send_query("SELECT `user_id` FROM users WHERE `name` = %s", (name,))
+    return res[0][0]
+
+
 def user_exists(user_id):
     """
     This will check if a user exists by the user_id.

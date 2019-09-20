@@ -22,7 +22,7 @@ class TestManagerStatus(unittest.TestCase):
             "user_name": "user.name",
             "user_id": "UMU0VNH09",
             "token": self.token,
-            "text": "user.name"
+            "text": "Test Testsson"
         }
         # This parses dictionary to a json.
         json_obj = json.dumps(payload)
