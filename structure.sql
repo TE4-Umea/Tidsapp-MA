@@ -1,11 +1,12 @@
 CREATE TABLE `users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
+  `user_id` varchar(255) UNIQUE,
   `name` varchar(255),
-  `checked_in` boolean,
-  `admin` boolean,
+  `checked_in` boolean DEFAULT (false),
+  `admin` boolean DEFAULT (false),
   `current_team` int,
   `current_project` int,
-  `created_at` datetime
+  `created_at` datetime DEFAULT (now())
 );
 
 CREATE TABLE `tracking` (
