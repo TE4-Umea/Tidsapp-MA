@@ -1,4 +1,7 @@
-from flask import Flask
+import json
+import os
+
+from flask import Flask, request
 from dotenv import load_dotenv
 
 # Importing the different routes.
@@ -11,13 +14,23 @@ load_dotenv()
 
 app = Flask(__name__)
 
+
+@app.before_request
+def before_request():
+    req = json.loads(request.get_json(force=True))
+    if not ('token' in req):
+        return "Error has occurred, The specified token is invalid"
+    if req['token'] != os.getenv('token'):
+        return "Error has occurred, The specified token is invalid"
+
+
 # This Registers all the sub-routes.
 app.register_blueprint(pr, url_prefix='/project/')
 app.register_blueprint(tr, url_prefix='/team/')
 app.register_blueprint(mr, url_prefix='/manager/')
 app.register_blueprint(ur, url_prefix='/user/')
-
-app.run()
+if __name__ == "__main__":
+    app.run(host=os.getenv('FLASK_URL'), port=os.getenv('FLASK_PORT'), debug=os.getenv('FLASK_DEBUG'))
 
 
 def verify_request():
