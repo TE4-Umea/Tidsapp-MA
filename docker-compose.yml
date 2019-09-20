@@ -29,6 +29,7 @@ services:
       # Where the data will be persisted
     volumes:
       - my-db:/var/lib/mysql
+      - ./init.sql:/app/structure.sql
 # Names our volume
 volumes:
   my-db:
