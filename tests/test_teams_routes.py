@@ -40,6 +40,7 @@ class TestCreateTeam(unittest.TestCase):
         # Asserts that the response is the what is expected.
         self.assertEqual(rv.data.decode(), "Team created successfully")
 
+
     def test_delete_non_existent_team(self):
         """
         This tries to delete a non existent team.
