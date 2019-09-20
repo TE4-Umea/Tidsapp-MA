@@ -71,7 +71,7 @@ class TestManagerStatus(unittest.TestCase):
         # Python dictionary
         payload = {
             "token": self.token,
-            "text": "userName newTeam"
+            "text": "Smith new Team0"
         }
         # This parses dictionary to a json.
         json_obj = json.dumps(payload)
@@ -84,4 +84,4 @@ class TestManagerStatus(unittest.TestCase):
 
         # Asserts that the response is the what to be expected.
         self.assertTrue(len(maru.data) > 0)
-        self.assertEqual(maru.data, "Moving userName to teamName")
+        self.assertEqual(maru.data.decode(), "User Moved to a new team successfully")
