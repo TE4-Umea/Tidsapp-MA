@@ -63,7 +63,17 @@ class TestCreateProject(unittest.TestCase):
         """
         # Python dictionary
         payload = {
-            "token": self.token
+            "token": self.token,
+            "team_id": "TM1TFDZH8",
+            "team_domain": "te4umea",
+            "channel_id": "DN0C7A2G0",
+            "channel_name": "directmessage",
+            "user_id": "U2U0VFADSS09",
+            "user_name": "test.testsson",
+            "command": "\/erdemo",
+            "text": "",
+            "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
+            "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
         }
         # This parses dictionary to a json.
         json_obj = json.dumps(payload)
@@ -74,8 +84,8 @@ class TestCreateProject(unittest.TestCase):
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
         # Asserts that the response is what is expected.
-        self.assertTrue(rv.data == ("Success. Time tracking is now active." or
-                                    "Success. Time tracking is now inactive."))
+        self.assertTrue(
+            rv.data.decode() == "Success. Time tracking is now active." or rv.data.decode() == "Success. Time tracking is now inactive.")
 
     def test_bad_token_user_track(self):
         """
@@ -85,7 +95,17 @@ class TestCreateProject(unittest.TestCase):
         """
         # Python dictionary
         payload = {
-            "token": self.token
+            "token": self.token,
+            "team_id": "TM1TFDZH8",
+            "team_domain": "te4umea",
+            "channel_id": "DN0C7A2G0",
+            "channel_name": "directmessage",
+            "user_id": "U2U0VFADSS09",
+            "user_name": "test.testsson",
+            "command": "\/erdemo",
+            "text": "",
+            "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
+            "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
         }
         # This parses dictionary to a json.
         json_obj = json.dumps(payload)
@@ -106,27 +126,6 @@ class TestCreateProject(unittest.TestCase):
         """
         # Python dictionary
         payload = {
-            "token": self.token
-        }
-        # This parses dictionary to a json.
-        json_obj = json.dumps(payload)
-
-        # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user/join/project', json=json_obj)
-
-        # Makes sure that the response status is 200.
-        self.assertTrue(rv.status == '200 OK')
-        # Asserts that the response is what is expected.
-        self.assertEqual(rv.data, "Project successfully joined.")
-
-    def test_user_join__nonexistent_project(self):
-        """
-        This tries to join a nonexistent project
-        Expected outcome is a return status of 200 and an error message saying:
-        `Error has occurred. The specified project does not exist`
-        """
-        # Python dictionary
-        payload = {
             "token": self.token,
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -135,12 +134,42 @@ class TestCreateProject(unittest.TestCase):
             "user_id": "U2U0VFADSS09",
             "user_name": "test.testsson",
             "command": "\/erdemo",
-            "text": "test_project_that_does_not_exist",
+            "text": "test_project_that_exists",
             "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
         }
         # This parses dictionary to a json.
         json_obj = json.dumps(payload)
+
+        self.app.post('/project/create', json=json_obj)
+        # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
+        rv = self.app.post('/user/join/project', json=json_obj)
+
+        # Makes sure that the response status is 200.
+        self.assertTrue(rv.status == '200 OK')
+        # Asserts that the response is what is expected.
+        self.assertEqual(rv.data.decode(), "Project successfully joined.")
+
+    def test_user_join__nonexistent_project(self):
+        """
+        This tries to join a nonexistent project
+        Expected outcome is a return status of 200 and an error message saying:
+        `Error has occurred. The specified project does not exist.`
+        """
+        # Python dictionary cast to json.
+        json_obj = json.dumps({
+            "token": self.token,
+            "team_id": "TM1TFDZH8",
+            "team_domain": "te4umea",
+            "channel_id": "DN0C7A2G0",
+            "channel_name": "directmessage",
+            "user_id": "U2U0VFADSS09",
+            "user_name": "test.testsson",
+            "command": "\/erdemo",
+            "text": "test_project_that_does_not_exists",
+            "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
+            "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
+        })
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
         rv = self.app.post('/user/join/project', json=json_obj)
@@ -148,7 +177,7 @@ class TestCreateProject(unittest.TestCase):
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
         # Asserts that the response is what is expected.
-        self.assertEqual(rv.data.decode(), "Error has occurred. The specified project does not exist")
+        self.assertEqual(rv.data.decode(), "Error has occurred. The specified project does not exist.")
 
     def test_user_join_team(self):
         """
@@ -156,7 +185,7 @@ class TestCreateProject(unittest.TestCase):
         Expected outcome is a return status of 200 and a message saying:
         `Team successfully joined.`
         """
-        # Python dictionary
+        # Python dictionary cast to json.
         payload = json.dumps({
             "token": self.token,
             "team_id": "TM1TFDZH8",

@@ -24,7 +24,28 @@ def track():
     Redirects response from error if it fails.
     :rtype: str
     """
-    pass
+    req = json.loads(request.get_json(force=True))
+    validate_user(req)
+    user = DbConnector().send_query("SELECT id,checked_in,current_project FROM users WHERE user_id = %s",
+                                    (req['user_id'],))
+    # Weird way of checking if a index exists in the database.
+    if len(user) > 0:
+        print(user)
+        new_checked_in_state = not user[0][1]
+        DbConnector().send_query(
+            "INSERT INTO `tracking` (`id`, `checked_in`, `user_id`, `project_id`, `timestamp`) " +
+            "VALUES (NULL, %s, %s, %s, current_timestamp());",
+            (new_checked_in_state, user[0][0], user[0][2])
+        )
+        # Updates the users current team
+        DbConnector().send_query(
+            "UPDATE users SET checked_in = %s WHERE user_id = %s",
+            (new_checked_in_state, req['user_id'])
+        )
+        if new_checked_in_state:
+            return "Success. Time tracking is now active."
+        return "Success. Time tracking is now inactive."
+    return "Error has occurred, Something went wrong. Please panic..."
 
 
 @ur.route('join/project', methods=['POST'])
@@ -35,7 +56,21 @@ def join_project():
     Redirects response from error if it fails.
     :rtype: str
     """
-    pass
+    req = json.loads(request.get_json(force=True))
+    validate_user(req)
+    project_id = DbConnector().send_query("SELECT id FROM project WHERE name = %s", (req['text'],))
+
+    # Weird way of checking if a index exists in the database.
+    if len(project_id) > 0:
+        # print("Team found with id of: " + str(project_id[0][0]))
+        # Updates the users current team
+        DbConnector().send_query(
+            "UPDATE users SET current_project = %s WHERE user_id = %s",
+            (str(project_id[0][0]), req['user_id'])
+        )
+        return "Project successfully joined."
+
+    return "Error has occurred. The specified project does not exist."
 
 
 @ur.route('join/team', methods=['POST'])
