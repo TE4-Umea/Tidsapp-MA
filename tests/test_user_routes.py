@@ -49,11 +49,19 @@ class TestCreateProject(unittest.TestCase):
         `Error has occurred, The specified token is invalid`
         """
         # Python dictionary
-        payload = {
-            "token": self.token
-        }
-        # This parses dictionary to a json.
-        json_obj = json.dumps(payload)
+        json_obj = json.dumps({
+            "token": "SomeInvalidToken",
+            "team_id": "TM1TFDZH8",
+            "team_domain": "te4umea",
+            "channel_id": "DN0C7A2G0",
+            "channel_name": "directmessage",
+            "user_id": "U2U0VFADSS09",
+            "user_name": "test.testsson",
+            "command": "\/erdemo",
+            "text": "",
+            "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
+            "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
+        })
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
         rv = self.app.post('/user/status', json=json_obj)
@@ -61,7 +69,7 @@ class TestCreateProject(unittest.TestCase):
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
         # Asserts that the response is what is expected.
-        self.assertEqual(rv.data, "Error has occurred, The specified token is invalid")
+        self.assertEqual(rv.data.decode(), "Error has occurred, The specified token is invalid")
 
     def test_user_track(self):
         """
@@ -69,8 +77,8 @@ class TestCreateProject(unittest.TestCase):
         Expected outcome is a return status of 200 and a message saying one of two things.
         `Success. Time tracking is now active.` or `Success. Time tracking is now inactive.`
         """
-        # Python dictionary
-        payload = {
+        # This parses dictionary to a json.
+        json_obj = json.dumps({
             "token": self.token,
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -82,9 +90,7 @@ class TestCreateProject(unittest.TestCase):
             "text": "",
             "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
-        }
-        # This parses dictionary to a json.
-        json_obj = json.dumps(payload)
+        })
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
         rv = self.app.post('/user/track', json=json_obj)
@@ -119,12 +125,12 @@ class TestCreateProject(unittest.TestCase):
         json_obj = json.dumps(payload)
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user/track', json=json_obj)
+        rv = self.app.post('/user/status', json=json_obj)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
         # Asserts that the response is what is expected.
-        self.assertEqual(rv.data, "Error has occurred, The specified token is invalid")
+        self.assertFalse(rv.data.decode() == "Error has occurred, The specified token is invalid")
 
     def test_user_join_project(self):
         """
