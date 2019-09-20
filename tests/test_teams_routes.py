@@ -40,7 +40,6 @@ class TestCreateTeam(unittest.TestCase):
         # Asserts that the response is the what is expected.
         self.assertEqual(rv.data.decode(), "Team created successfully")
 
-
     def test_delete_non_existent_team(self):
         """
         This tries to delete a non existent team.
@@ -112,13 +111,13 @@ class TestCreateTeam(unittest.TestCase):
 
         # This parses dictionary to a json.
         json_obj = json.dumps({
-            "token": "UzM1Hasfas231sdcUZrVbD76JpmP",
+            "token": self.token,
             "text": "Team0",
         })
 
         self.app.post('/team/create', json=json_obj)
         json_obj = json.dumps({
-            "token": "UzM1Hasfas231sdcUZrVbD76JpmP",
+            "token": self.token,
             "text": "Team0 Team01",
         })
 
@@ -138,7 +137,7 @@ class TestCreateTeam(unittest.TestCase):
         """
         # This parses dictionary to a json.
         json_obj = json.dumps({
-            "token": "UzM1Hasfas231sdcUZrVbD76JpmP",
+            "token": self.token,
             "text": "Team_does_not_exist Team_still_does_not_exist",
         })
 
@@ -160,7 +159,7 @@ class TestCreateTeam(unittest.TestCase):
 
         # Python dictionary
         json_obj = json.dumps({
-            "token": "UzM1Hasfas231sdcUZrVbD76JpmP",
+            "token": self.token,
             "text": "test_Team"
         })
 
