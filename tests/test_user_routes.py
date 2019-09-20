@@ -20,7 +20,7 @@ class TestCreateProject(unittest.TestCase):
          You're currently working on project z and part of the team xyz.`
         """
         # Python dictionary
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -32,10 +32,10 @@ class TestCreateProject(unittest.TestCase):
             "text": "",
             "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
-        })
+        }
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user/status', json=json_obj)
+        rv = self.app.post('/user/status', query_string=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -49,7 +49,7 @@ class TestCreateProject(unittest.TestCase):
         `Error has occurred, The specified token is invalid`
         """
         # Python dictionary
-        json_obj = json.dumps({
+        payload = {
             "token": "SomeInvalidToken",
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -61,10 +61,10 @@ class TestCreateProject(unittest.TestCase):
             "text": "",
             "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
-        })
+        }
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user/status', json=json_obj)
+        rv = self.app.post('/user/status', query_string=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -78,7 +78,7 @@ class TestCreateProject(unittest.TestCase):
         `Success. Time tracking is now active.` or `Success. Time tracking is now inactive.`
         """
         # This parses dictionary to a json.
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -90,10 +90,10 @@ class TestCreateProject(unittest.TestCase):
             "text": "",
             "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
-        })
+        }
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user/track', json=json_obj)
+        rv = self.app.post('/user/track', query_string=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -121,11 +121,9 @@ class TestCreateProject(unittest.TestCase):
             "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
         }
-        # This parses dictionary to a json.
-        json_obj = json.dumps(payload)
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user/status', json=json_obj)
+        rv = self.app.post('/user/status', query_string=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -152,12 +150,10 @@ class TestCreateProject(unittest.TestCase):
             "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
         }
-        # This parses dictionary to a json.
-        json_obj = json.dumps(payload)
 
-        self.app.post('/project/create', json=json_obj)
+        self.app.post('/project/create', query_string=payload)
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user/join/project', json=json_obj)
+        rv = self.app.post('/user/join/project', query_string=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -171,7 +167,7 @@ class TestCreateProject(unittest.TestCase):
         `Error has occurred. The specified project does not exist.`
         """
         # Python dictionary cast to json.
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -183,10 +179,10 @@ class TestCreateProject(unittest.TestCase):
             "text": "test_project_that_does_not_exists",
             "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
-        })
+        }
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user/join/project', json=json_obj)
+        rv = self.app.post('/user/join/project', query_string=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -200,7 +196,7 @@ class TestCreateProject(unittest.TestCase):
         `Team successfully joined.`
         """
         # Python dictionary cast to json.
-        payload = json.dumps({
+        payload = {
             "token": self.token,
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -212,9 +208,9 @@ class TestCreateProject(unittest.TestCase):
             "text": "test_team",
             "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
-        })
+        }
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user/join/team', json=payload)
+        rv = self.app.post('/user/join/team', query_string=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -228,7 +224,7 @@ class TestCreateProject(unittest.TestCase):
         `Error has occurred. The specified team does not exist.`
         """
         # Python dictionary
-        payload = json.dumps({
+        payload = {
             "token": self.token,
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -240,10 +236,10 @@ class TestCreateProject(unittest.TestCase):
             "text": "",
             "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
-        })
+        }
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
-        rv = self.app.post('/user/join/team', json=payload)
+        rv = self.app.post('/user/join/team', query_string=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
