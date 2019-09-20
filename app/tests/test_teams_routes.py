@@ -18,7 +18,7 @@ class TestCreateTeam(unittest.TestCase):
         'Error has occurred, Something went wrong'
         """
         # This parses dictionary to a json.
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -30,10 +30,10 @@ class TestCreateTeam(unittest.TestCase):
             "text": "new Team0212",
             "response_url": "https://hooks.slack.com/commands/TM1TFDZH8/748738219890/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
-        })
+        }
 
         # Sends a POSt request to the endpoint "/delete_team/" with the payload of json_obj.
-        rv = self.app.post('/team/create', json=json_obj)
+        rv = self.app.post('/team/create', query_string=payload)
 
         # Makes sure that the response status is 200.
         assert rv.status == '200 OK'
@@ -49,7 +49,7 @@ class TestCreateTeam(unittest.TestCase):
         """
 
         # Python dictionary
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -61,10 +61,10 @@ class TestCreateTeam(unittest.TestCase):
             "text": "delete team01",
             "response_url": "https://hooks.slack.com/commands/TM1TFDZH8/748738219890/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
-        })
+        }
 
         # Sends a POST request to the endpoint "/delete_team/" with the payload of json_obj.
-        rv = self.app.post('/team/delete', json=json_obj)
+        rv = self.app.post('/team/delete', query_string=payload)
         # Makes sure that the response status is 200.
         assert rv.status == '200 OK'
         # Asserts that the response is the what is expected.
@@ -79,7 +79,7 @@ class TestCreateTeam(unittest.TestCase):
         """
 
         # Python dictionary
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -91,11 +91,11 @@ class TestCreateTeam(unittest.TestCase):
             "text": "delete team01",
             "response_url": "https://hooks.slack.com/commands/TM1TFDZH8/748738219890/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
-        })
+        }
 
         # Sends a POST request to the endpoint "/delete_team/" with the payload of json_obj.
-        self.app.post('/team/create', json=json_obj)
-        rv = self.app.post('/team/delete', json=json_obj)
+        self.app.post('/team/create', query_string=payload)
+        rv = self.app.post('/team/delete', query_string=payload)
         # Makes sure that the response status is 200.
         assert rv.status == '200 OK'
         # Asserts that the response is the what is expected.
@@ -110,19 +110,19 @@ class TestCreateTeam(unittest.TestCase):
         """
 
         # This parses dictionary to a json.
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "text": "Team0",
-        })
+        }
 
-        self.app.post('/team/create', json=json_obj)
-        json_obj = json.dumps({
+        self.app.post('/team/create', query_string=payload)
+        payload = {
             "token": self.token,
             "text": "Team0 Team01",
-        })
+        }
 
         # Sends a POST request to the endpoint "/delete_team/" with the payload of json_obj.
-        rv = self.app.post('/team/update', json=json_obj)
+        rv = self.app.post('/team/update', query_string=payload)
         # Makes sure that the response status is 200.
         assert rv.status == '200 OK'
         # Asserts that the response is the what is expected.
@@ -136,13 +136,13 @@ class TestCreateTeam(unittest.TestCase):
         'Error has occurred, The specified team does not exist or something went wrong'
         """
         # This parses dictionary to a json.
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "text": "Team_does_not_exist Team_still_does_not_exist",
-        })
+        }
 
         # Sends a POST request to the endpoint "/delete_team/" with the payload of json_obj.
-        rv = self.app.post('/team/update', json=json_obj)
+        rv = self.app.post('/team/update', query_string=payload)
         # Makes sure that the response status is 200.
         assert rv.status == '200 OK'
         # Asserts that the response is the what is expected.
@@ -158,14 +158,14 @@ class TestCreateTeam(unittest.TestCase):
         """
 
         # Python dictionary
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "text": "test_Team"
-        })
+        }
 
         # Sends a POST request to the endpoint "/delete_team/" with the payload of json_obj.
-        self.app.post('/team/create', json=json_obj)
-        rv = self.app.post('/team/display', json=json_obj)
+        self.app.post('/team/create', query_string=payload)
+        rv = self.app.post('/team/display', query_string=payload)
 
         # Makes sure that the response status is 200.
         assert rv.status == '200 OK'

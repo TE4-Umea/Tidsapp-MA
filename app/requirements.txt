@@ -1,0 +1,4 @@
+python-dotenv==0.10.3
+Flask==1.1.1
+mysql-connector-python==8.0.17
+uWSGI==2.0.18

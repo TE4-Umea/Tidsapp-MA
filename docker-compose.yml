@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    depends_on:
+    - time_app
+    ports:
+    - "8080:80"
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+
+  time_app:
+    image: time_app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'timeapp'
+      MYSQL_USER: 'timeapp'
+      MYSQL_PASSWORD: 'timeapp'
+      MYSQL_ROOT_PASSWORD: 'timeapp'
+    expose:
+      - '3306'
+    # Where the data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8 --explicit_defaults_for_timestamp
+# Names our volume
+volumes:
+  my-db:

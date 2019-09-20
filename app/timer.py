@@ -17,10 +17,15 @@ app = Flask(__name__)
 
 @app.before_request
 def before_request():
-    req = json.loads(request.get_json(force=True))
-    if not ('token' in req):
-        return "Error has occurred, The specified token is invalid"
-    if req['token'] != os.getenv('token'):
+    """
+    This will intercept all incoming requests to the server and -
+    return a error if no token is in the request or if the supplied token is not valid.
+    :rtype: str: error message
+    """
+    req = request.args
+    if (not ('token' in req)) or (req['token'] != os.getenv('token')):
+        if 'token' in req:
+            print("supplied token: ", req['token'])
         return "Error has occurred, The specified token is invalid"
 
 
@@ -31,20 +36,3 @@ app.register_blueprint(mr, url_prefix='/manager/')
 app.register_blueprint(ur, url_prefix='/user/')
 if __name__ == "__main__":
     app.run(host=os.getenv('FLASK_URL'), port=os.getenv('FLASK_PORT'), debug=os.getenv('FLASK_DEBUG'))
-
-
-def verify_request():
-    """
-    Verifies the incoming request to make sure that the token that was passed is valid.
-    Returns true if the incoming request is valid false if it is not.
-    :rtype: bool
-    """
-    pass
-
-
-def error():
-    """
-    This will return a string response to the post request with a included error.
-    :rtype: str
-    """
-    pass
