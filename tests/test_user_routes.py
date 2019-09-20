@@ -20,11 +20,19 @@ class TestCreateProject(unittest.TestCase):
          You're currently working on project z and part of the team xyz.`
         """
         # Python dictionary
-        payload = {
-            "token": self.token
-        }
-        # This parses dictionary to a json.
-        json_obj = json.dumps(payload)
+        json_obj = json.dumps({
+            "token": self.token,
+            "team_id": "TM1TFDZH8",
+            "team_domain": "te4umea",
+            "channel_id": "DN0C7A2G0",
+            "channel_name": "directmessage",
+            "user_id": "U2U0VFADSS09",
+            "user_name": "test.testsson",
+            "command": "\/erdemo",
+            "text": "",
+            "response_url": "https:\/\/hooks.slack.com\/commands\/TM1TFDZH8\/748738219890\/YGPnRsJuBqhFn5jHycboGC2C",
+            "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
+        })
 
         # Sends a POST request to the endpoint "/user_status/" with the payload of json_obj.
         rv = self.app.post('/user/status', json=json_obj)
