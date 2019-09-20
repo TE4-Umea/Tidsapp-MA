@@ -1,0 +1,25 @@
+from python:3.7-slim
+
+WORKDIR /Routes
+
+ADD __init__.py
+ADD manager_routes.py
+ADD project_routes.py
+ADD team_routes.py
+ADD user_routes.py
+
+RUN --name sqlenterprise \
+      -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=<YourStrong!Passw0rd>' \
+      -e 'MSSQL_PID=Enterprise' -p 1433:1433 \
+      -d mcr.microsoft.com/mssql/server:2017-latest
+
+RUN apt-get clean \
+    && apt-get -y update \
+    && pip install --upgrade pip \
+    && apt-get -y install python3-dev \
+    && apt-get -y install build-essential \
+    && pip install -r requirements.txt \
+    && rm -rf /var/cache/apk/*
+
+    CMD [ "python", "./__init__.py", "./manager_routes.py",
+        "./project_routes.py", ".team_routes.py"]
