@@ -194,17 +194,19 @@ def get_worked_time(user_id):
         (user_id,)
     )
     # If checked_in is true then else.
-    if response[0][1]:
+    if len(response) > 0:
+        if response[0][1]:
 
-        latest_timestamp = response[0][4]
-        # Gives a time delta object with the difference
-        difference = datetime.datetime.utcnow() - latest_timestamp
-        return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), response[0][1]
-    else:
-        check_out_timestamp = response[0][4]
-        check_in_timestamp = response[1][4]
-        difference = check_out_timestamp - check_in_timestamp
-        return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), response[0][1]
+            latest_timestamp = response[0][4]
+            # Gives a time delta object with the difference
+            difference = datetime.datetime.utcnow() - latest_timestamp
+            return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), response[0][1]
+        else:
+            check_out_timestamp = response[0][4]
+            check_in_timestamp = response[1][4]
+            difference = check_out_timestamp - check_in_timestamp
+            return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), response[0][1]
+    return "0 Hours 0 Minutes"
 
 
 def _str_format_delta(t_delta, fmt):
