@@ -23,7 +23,7 @@ def before_request():
     :rtype: str: error message
     """
     req = request.args
-    if (not ('token' in req)) or (req['token'] != os.getenv('token')):
+    if (not ('token' in req)) or (req['toke'] != os.getenv('TOKEN')):
         if 'token' in req:
             print("supplied token: ", req['token'])
         return "Error has occurred, The specified token is invalid"
