@@ -1,7 +1,8 @@
 FROM python:3.7-slim
 
-COPY ./app/requirements.txt /app/requirements.txt
-COPY ./app/.env.example /app/.env
+
+ADD ./app/requirements.txt /app/requirements.txt
+ADD ./docker-entrypoint.sh /usr/local/bin/
 
 WORKDIR /app
 
@@ -13,6 +14,7 @@ RUN apt-get clean \
     && pip install -r requirements.txt \
     && rm -rf /var/cache/apk/*
 
-COPY ./app /app
+ADD ./app /app
 
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["uwsgi", "--ini", "uwsgi.ini"]

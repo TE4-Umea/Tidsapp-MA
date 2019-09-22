@@ -1,0 +1,9 @@
+#!/bin/bash
+touch /app/.env
+echo "TOKEN=$TOKEN
+FLASK_URL=0.0.0.0
+DB_HOST=$DB_HOST
+DB_NAME=$DB_NAME
+DB_USERNAME=$DB_USERNAME
+DB_PASSWORD=$DB_PASSWORD" > /app/.env
+exec "$@"
