@@ -17,7 +17,7 @@ class DbConnector:
         import os
         self.mysql = mysql.connect(
             host=os.getenv("DB_HOST"),
-            port=int(os.getenv("DB_PORT")),
+            port=os.getenv("DB_PORT"),
             user=os.getenv("DB_USERNAME"),
             passwd=os.getenv("DB_PASSWORD"),
             database=os.getenv("DB_NAME")
