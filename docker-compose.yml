@@ -18,6 +18,7 @@ services:
     environment:
       TOKEN: ${TOKEN-default}
       DB_HOST: ${DB_HOST-timeapp_db}
+      DB_PORT: ${DB_PORT-3306}
       DB_NAME: ${DB_NAME-timeapp}
       DB_USERNAME: ${DB_USERNAME-timeapp}
       DB_PASSWORD: ${DB_PASSWORD-timeapp}
