@@ -15,7 +15,7 @@ def manager_status():
     :return: str
     """
     from Routes.user_routes import get_status, get_user_id
-    req = request.args
+    req = request.form
     if 'text' in req and req['text'] != "":
         return get_status(get_user_id(req['text']))
     output = ""
@@ -34,7 +34,7 @@ def manager_move():
     :return: str
     """
     # loads payload as json then converts it to a dictionary
-    req = request.args
+    req = request.form
     split_text = req['text'].split(" ", 1)
     if len(split_text) < 2:
         return "Error has occurred, There are not enough arguments to run this command."

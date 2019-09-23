@@ -22,7 +22,7 @@ def before_request():
     return a error if no token is in the request or if the supplied token is not valid.
     :rtype: str: error message
     """
-    req = request.args
+    req = request.form
     if (not ('token' in req)) or (req['token'] != os.getenv('TOKEN')):
         if 'token' in req:
             print("supplied token: ", req['token'])

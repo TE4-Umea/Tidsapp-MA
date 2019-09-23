@@ -14,7 +14,7 @@ def create_team():
     :rtype: str
     """
     # loads payload as json then converts it to a dictionary
-    req = request.args
+    req = request.form
     # Checks if the team dosen't exist
     if not team_exists(req['text']):
         # If it doesnt exists it goes here
@@ -33,7 +33,7 @@ def delete_team():
     :rtype: str
     """
     # loads payload as json then converts it to a dictionary
-    req = request.args
+    req = request.form
     if team_exists(req['text']):
         # If it exists it goes here
         response = DbConnector().send_query("DELETE FROM teams WHERE name = %s", (req['text'],))
@@ -52,7 +52,7 @@ def update_team():
     :rtype: str
     """
     # loads payload as json then converts it to a dictionary
-    req = request.args
+    req = request.form
     split_text = req['text'].split(" ", 1)
     old_name = split_text[0]
     new_name = split_text[1]

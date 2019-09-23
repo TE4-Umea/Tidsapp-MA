@@ -14,7 +14,7 @@ def status():
     Redirects response from error if it fails.
     :rtype: str
     """
-    req = request.args
+    req = request.form
     validate_user(req)
 
     return get_status(req['user_id'])
@@ -27,7 +27,7 @@ def track():
     Redirects response from error if it fails.
     :rtype: str
     """
-    req = request.args
+    req = request.form
     validate_user(req)
     user = DbConnector().send_query("SELECT id,checked_in,current_project FROM users WHERE user_id = %s",
                                     (req['user_id'],))
@@ -59,7 +59,7 @@ def join_project():
     Redirects response from error if it fails.
     :rtype: str
     """
-    req = request.args
+    req = request.form
     validate_user(req)
     project_id = DbConnector().send_query("SELECT id FROM project WHERE name = %s", (req['text'],))
 
@@ -84,7 +84,7 @@ def join_team():
     Redirects response from error if it fails.
     :rtype: str
     """
-    req = request.args
+    req = request.form
     validate_user(req)
     team_id = DbConnector().send_query("SELECT id FROM teams WHERE name = %s", (req['text'],))
     if len(team_id) > 0:
