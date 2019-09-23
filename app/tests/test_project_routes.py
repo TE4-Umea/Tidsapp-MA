@@ -18,7 +18,7 @@ class TestCreateProject(unittest.TestCase):
         `Created project successfully`.
         """
         # This parses dictionary to a json.
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -30,10 +30,10 @@ class TestCreateProject(unittest.TestCase):
             "text": "new_project",
             "response_url": "https://hooks.slack.com/commands/TM1TFDZH8/748738219890/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
-        })
+        }
 
         # Sends a POST request to get the create project endpoint
-        rv = self.app.post('/project/create', json=json_obj)
+        rv = self.app.post('/project/create', query_string=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -47,7 +47,7 @@ class TestCreateProject(unittest.TestCase):
         `Error has occurred, The specified project does not exist`.
         """
         # This parses dictionary to a json.
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -59,10 +59,10 @@ class TestCreateProject(unittest.TestCase):
             "text": "project_that_does_not_exist",
             "response_url": "https://hooks.slack.com/commands/TM1TFDZH8/748738219890/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
-        })
+        }
 
         # Sends a POST request to the endpoint "/delete_project/" with the payload of json_obj.
-        rv = self.app.post('/project/delete', json=json_obj)
+        rv = self.app.post('/project/delete', query_string=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -76,7 +76,7 @@ class TestCreateProject(unittest.TestCase):
         `Project successfully deleted`.
         """
         # This parses dictionary to a json.
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "team_id": "TM1TFDZH8",
             "team_domain": "te4umea",
@@ -88,11 +88,11 @@ class TestCreateProject(unittest.TestCase):
             "text": "new_project_that_will_be_deleted",
             "response_url": "https://hooks.slack.com/commands/TM1TFDZH8/748738219890/YGPnRsJuBqhFn5jHycboGC2C",
             "trigger_id": "755103228097.715933475586.073d00750e4e59c7f463f2c0e9587b42"
-        })
+        }
 
         # Sends a POST request to the endpoint "/delete_project/" with the payload of json_obj.
-        self.app.post('/project/create', json=json_obj)
-        rv = self.app.post('/project/delete', json=json_obj)
+        self.app.post('/project/create', query_string=payload)
+        rv = self.app.post('/project/delete', query_string=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')
@@ -126,18 +126,18 @@ class TestCreateProject(unittest.TestCase):
 
     def update_project(self, find_project):
         # This parses dictionary to a json.
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "text": "test_project2"
-        })
+        }
 
         # Sends a POST request to the endpoint "/delete_project/" with the payload of json_obj.
-        self.app.post('/project/create', json=json_obj)
-        json_obj = json.dumps({
+        self.app.post('/project/create', query_string=payload)
+        payload = {
             "token": self.token,
             "text": find_project + " test_project_updated"
-        })
-        return self.app.post('/project/update', json=json_obj)
+        }
+        return self.app.post('/project/update', query_string=payload)
 
     def test_display_projects(self):
         """
@@ -145,14 +145,14 @@ class TestCreateProject(unittest.TestCase):
         Expected outcome is a return status of 200 and a message saying:
         `Here's a list of all the projects.\n    * test_project3`.
         """
-        json_obj = json.dumps({
+        payload = {
             "token": self.token,
             "text": "test_project3"
-        })
+        }
 
         # Sends a POST request to get the
-        self.app.post('/project/create', json=json_obj)
-        rv = self.app.post('/project/display', json=json_obj)
+        self.app.post('/project/create', query_string=payload)
+        rv = self.app.post('/project/display', query_string=payload)
 
         # Makes sure that the response status is 200.
         self.assertTrue(rv.status == '200 OK')

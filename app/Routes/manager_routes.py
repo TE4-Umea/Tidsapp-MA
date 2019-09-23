@@ -14,7 +14,16 @@ def manager_status():
     Returns a str of how long the user has been active.
     :return: str
     """
-    pass
+    from Routes.user_routes import get_status, get_user_id
+    req = request.form
+    if 'text' in req and req['text'] != "":
+        return get_status(get_user_id(req['text']))
+    output = ""
+    response = DbConnector().send_query("SELECT user_id FROM users")
+    for index in response:
+        output += get_status(index[0]) + "\n"
+    print(output)
+    return output
 
 
 @mr.route('move', methods=['POST'])
@@ -25,7 +34,7 @@ def manager_move():
     :return: str
     """
     # loads payload as json then converts it to a dictionary
-    req = json.loads(request.get_json(force=True))
+    req = request.form
     split_text = req['text'].split(" ", 1)
     if len(split_text) < 2:
         return "Error has occurred, There are not enough arguments to run this command."

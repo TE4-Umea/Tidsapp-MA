@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  timeapp_nginx:
+    image: nginx:latest
+    depends_on:
+      - timeapp_flask
+    ports:
+      - "${PORT-8080}:80"
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+
+  timeapp_flask:
+    image: time_app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      TOKEN: ${TOKEN-default}
+      DB_HOST: ${DB_HOST-timeapp_db}
+      DB_PORT: ${DB_PORT-3306}
+      DB_NAME: ${DB_NAME-timeapp}
+      DB_USERNAME: ${DB_USERNAME-timeapp}
+      DB_PASSWORD: ${DB_PASSWORD-timeapp}
+
+      
+  timeapp_db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: "timeapp"
+      MYSQL_USER: "timeapp"
+      MYSQL_PASSWORD: "timeapp"
+      MYSQL_ROOT_PASSWORD: "timeapp"
+    expose:
+      - "3306"
+    # Where the data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8 --explicit_defaults_for_timestamp
+# Names our volume
+volumes:
+  my-db:
