@@ -16,10 +16,7 @@ def create_team():
     # loads payload as json then converts it to a dictionary
     req = request.form
     teamname = req['text']
-    teamname = teamname.strip()
-    # teamname = re.match(r'\"(.+?)\"',teamname)
-    # s = (req['text'],)
-    # print('Remove all spaces using RegEx:\n', re.sub(r"\s+", "", s))
+    teamname = re.sub(r"^\s+", "", teamname)
     # Checks if the team dosen't exist
     if not team_exists(req['text']):
         # If it doesnt exists it goes here
@@ -62,11 +59,10 @@ def update_team():
     old_name = split_text[0]
     new_name = split_text[1]
     new_name = new_name.strip()
-    # new_name = split_text.find('\"')
-
     if team_exists(old_name):
         # If it exists it goes here
         response = DbConnector().send_query("UPDATE teams SET name = %s WHERE name = %s", (new_name, old_name))
+
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response == "1 row(s) affected.":
             return "Team name successfully updated"

@@ -15,12 +15,11 @@ def create_project():
     """
     # loads payload as json then converts it to a dictionary
     req = request.form
-    projectname = req['text']
-    projectname = projectname.strip()
+
     # Checks if the team dosen't exist
     if not project_exists(req['text']):
         # If it doesnt exists it goes here
-        response = DbConnector().send_query("INSERT INTO project (`id`, `name`) VALUES (NULL, %s)", (projectname,))
+        response = DbConnector().send_query("INSERT INTO project (`id`, `name`) VALUES (NULL, %s)", (req['text'],))
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response != "1 row(s) affected.":
             return "Error has occurred, Something went wrong"
@@ -55,11 +54,25 @@ def update_project():
     """
     # loads payload as json then converts it to a dictionary
     req = request.form
-    split_text = req['text'].split(" ", 1)
+    projectName = req['text']
+    citationCount = projectName.count('"')
+    startIndex = projectName.find('\"')
+    if startIndex != -1:  # i.e. if the first quote was found
+        endIndex = projectName.find('\"', startIndex + 1)
+    x = [m.start() for m in re.finditer(r'"', projectName)]
+    m = x[1]
+    split_text = projectName.split(m, 1)
     old_name = split_text[0]
     new_name = split_text[1]
     new_name = new_name.strip()
-    # old_name = split_text.search('\"')
+
+
+    startIndexOld = old_name.find('\"')
+    if startIndexOld != -1:  # i.e. if the first quote was found
+        endIndexOld = old_name.find('\"', startIndexOld + 1)
+        if startIndexOld != -1 and endIndexOld != -1:  # i.e. both quotes were found
+            checkerOld = True
+
     if project_exists(old_name):
         # If it exists it goes here
         response = DbConnector().send_query("UPDATE project SET name = %s WHERE name = %s", (new_name, old_name))
