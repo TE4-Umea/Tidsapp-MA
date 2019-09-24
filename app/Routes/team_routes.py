@@ -1,7 +1,7 @@
-import json
-import re
 from flask import Blueprint, abort, request
 from db_connector import DbConnector
+import json
+import re
 
 tr = Blueprint('tr', __name__)
 
@@ -62,15 +62,19 @@ def update_team():
     # If theres more than one citation in the string.
     if updateString.count('"') > 1:
         splt_char = '"'
-        K = 2
+        K = 2 # The instance of the splt_char where the string should be split
         temp = updateString.split(splt_char)
+        # Splits at each occurence of splt_char
         split_text = splt_char.join(temp[:K]), splt_char.join(temp[K:])
+        # Joins split_text, a tuple, with temp - split between the second instance of splt_char
         old_name = split_text[0]
         new_name = split_text[1]
         old_name = re.sub(r'"', "", old_name)
         new_name = re.sub(r'"', "", new_name)
+        # Removes all "
         old_name = old_name.strip()
         new_name = new_name.strip()
+        # Removes leading and trailing whitespace
     else:
         updateString = updateString.strip()
         # Splits the string at the first space
