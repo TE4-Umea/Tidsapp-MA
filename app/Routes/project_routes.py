@@ -17,6 +17,9 @@ def create_project():
     req = request.form
     projectname = req['text']
     projectname = projectname.strip()
+    # Check if the project name isn't empty
+    if len(projectname) <= 0:
+        return "Error: please don't leave the name on blank"
     # Checks if the team dosen't exist
     if not project_exists(req['text']):
         # If it doesnt exists it goes here

@@ -17,6 +17,9 @@ def create_team():
     req = request.form
     teamname = req['text']
     teamname = teamname.strip()
+    # Check if the team name isn't empty
+    if len(teamname) <= 0:
+        return "Error: please don't leave the name on blank"
     # Checks if the team dosen't exist
     if not team_exists(req['text']):
         # If it doesnt exists it goes here
