@@ -187,7 +187,7 @@ def get_worked_time(user_id):
     """
     Gets the time worked in a day for the specific user.id as a string.
     :rtype: str
-    # """
+    """
     import datetime
     response = DbConnector().send_query(
         "SELECT MIN(`timestamp`) AS first_timestamp, MAX(`timestamp`) AS last_timestamp FROM `tracking` WHERE (`user_id` = %s) AND (UNIX_TIMESTAMP(CURRENT_DATE()) < UNIX_TIMESTAMP(`timestamp`)) ORDER BY id LIMIT 1",
