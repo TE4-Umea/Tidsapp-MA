@@ -1,6 +1,7 @@
 from flask import Blueprint, abort, request
 from db_connector import DbConnector
 import json
+import re
 
 pr = Blueprint('pr', __name__)
 
@@ -14,6 +15,7 @@ def create_project():
     """
     # loads payload as json then converts it to a dictionary
     req = request.form
+
     # Checks if the team dosen't exist
     if not project_exists(req['text']):
         # If it doesnt exists it goes here
@@ -52,10 +54,25 @@ def update_project():
     """
     # loads payload as json then converts it to a dictionary
     req = request.form
-    split_text = req['text'].split(" ", 1)
+    projectName = req['text']
+    citationCount = projectName.count('"')
+    startIndex = projectName.find('\"')
+    if startIndex != -1:  # i.e. if the first quote was found
+        endIndex = projectName.find('\"', startIndex + 1)
+    x = [m.start() for m in re.finditer(r'"', projectName)]
+    m = x[1]
+    split_text = projectName.split(m, 1)
     old_name = split_text[0]
     new_name = split_text[1]
     new_name = new_name.strip()
+
+
+    startIndexOld = old_name.find('\"')
+    if startIndexOld != -1:  # i.e. if the first quote was found
+        endIndexOld = old_name.find('\"', startIndexOld + 1)
+        if startIndexOld != -1 and endIndexOld != -1:  # i.e. both quotes were found
+            checkerOld = True
+
     if project_exists(old_name):
         # If it exists it goes here
         response = DbConnector().send_query("UPDATE project SET name = %s WHERE name = %s", (new_name, old_name))
