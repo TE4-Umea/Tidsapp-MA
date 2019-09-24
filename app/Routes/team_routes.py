@@ -16,7 +16,7 @@ def create_team():
     # loads payload as json then converts it to a dictionary
     req = request.form
     teamname = req['text']
-    teamname = re.sub(r"^\s+", "", teamname)
+    teamname = teamname.strip()
     # Checks if the team dosen't exist
     if not team_exists(req['text']):
         # If it doesnt exists it goes here
@@ -55,10 +55,26 @@ def update_team():
     """
     # loads payload as json then converts it to a dictionary
     req = request.form
-    split_text = req['text'].split(" ", 1)
-    old_name = split_text[0]
-    new_name = split_text[1]
-    new_name = new_name.strip()
+    updateString = req['text']
+    # If theres more than one citation in the string.
+    if updateString.count('"') > 1:
+        splt_char = '"'
+        K = 2
+        temp = updateString.split(splt_char)
+        split_text = splt_char.join(temp[:K]), splt_char.join(temp[K:])
+        old_name = split_text[0]
+        new_name = split_text[1]
+        old_name = re.sub(r'"', "", old_name)
+        new_name = re.sub(r'"', "", new_name)
+        old_name = old_name.strip()
+        new_name = new_name.strip()
+    else:
+        updateString = updateString.strip()
+        # Splits the string at the first space
+        split_text = updateString.split(" ", 1)
+        old_name = split_text[0]
+        new_name = split_text[1]
+
     if team_exists(old_name):
         # If it exists it goes here
         response = DbConnector().send_query("UPDATE teams SET name = %s WHERE name = %s", (new_name, old_name))
