@@ -22,4 +22,4 @@ $ git clone https://github.com/te4umea2019/Tidsapp-MA.git
 $ cd Tidsapp-MA
 $ docker-compose up -d
 ```
-This will after a downloading all the dependencies start a swarm for this web app on The local computes IP on port 8080
+This will after a downloading all the dependencies start a swarm for this web app on the local computers IP on port 8080
