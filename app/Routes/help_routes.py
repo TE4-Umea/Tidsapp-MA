@@ -25,9 +25,13 @@ def switch_demo(argument):
     """
     # this is the switcher function that switches the 4 different cases and returns their string
     switcher = {
-        1: "/matcreate [namn] skapar ett team med det angivna namnet - "
+        1: "Teams Help" \
+           "/matcreate [namn] skapar ett team med det angivna namnet - "
            "Om inget namn anges, skapas inte teamet" \
-           "/matupdate [namn] [nytt namn] Uppdaterar namnet på ett team",
+           "/matupdate [namn] [nytt namn] Uppdaterar namnet på ett team" \
+           "/matdelete [namn] radderar det angivna teamet" \
+           "/majointeam [namn] går med i det angivna laget" \
+           "/mateams visar alla tillgängliga teams",
         2: "Help",
         3: "test",
         4: "test2"
