@@ -15,15 +15,18 @@ def create_team():
     """
     # loads payload as json then converts it to a dictionary
     req = request.form
+    teamname = req['text']
+    teamname = teamname.strip()
+    # s = (req['text'],)
+    # print('Remove all spaces using RegEx:\n', re.sub(r"\s+", "", s))
     # Checks if the team dosen't exist
     if not team_exists(req['text']):
         # If it doesnt exists it goes here
-        response = DbConnector().send_query("INSERT INTO teams (`id`, `name`) VALUES (NULL, %s)", (req['text'],))
+        response = DbConnector().send_query("INSERT INTO teams (`id`, `name`) VALUES (NULL, %s)", (teamname,))
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response != "1 row(s) affected.":
             return "Error has occurred, Something went wrong"
     return "Team created successfully"
-
 
 @tr.route('delete', methods=['POST'])
 def delete_team():
