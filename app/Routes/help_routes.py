@@ -23,13 +23,16 @@ def switch_demo(argument):
 
     :return:
     """
+    # this is the switcher function that switches the 4 different cases and returns their string
     switcher = {
-        1: "status",
+        1: "/matcreate [namn] skapar ett team med det angivna namnet - "
+           "Om inget namn anges, skapas inte teamet" \
+           "/matupdate [namn] [nytt namn] Uppdaterar namnet på ett team",
         2: "Help",
         3: "test",
         4: "test2"
 
     }
-    #Prints the function
+    # Prints the function
     func = switcher.get(argument, "test")
     print(func())
