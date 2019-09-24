@@ -423,12 +423,12 @@ def get_worked_time(user_id):
             latest_timestamp = response[0]
             # Gives a time delta object with the difference
             difference = datetime.datetime.utcnow() - latest_timestamp
-            return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), checked_in
+            return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), bool(checked_in)
         else:
             check_out_timestamp = response[0][4]
             check_in_timestamp = response[1][4]
             difference = check_out_timestamp - check_in_timestamp
-            return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), checked_in
+            return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), bool(checked_in)
     return "0 Hours 0 Minutes", False
 
 
