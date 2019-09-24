@@ -190,23 +190,24 @@ def get_worked_time(user_id):
     """
     import datetime
     response = DbConnector().send_query(
-        "SELECT * FROM `tracking` WHERE `user_id` = %s ORDER BY id DESC LIMIT 2",
+        "SELECT MIN(`timestamp`) AS first_timestamp, MAX(`timestamp`) AS last_timestamp FROM `tracking` WHERE (`user_id` = %s) AND (UNIX_TIMESTAMP(CURRENT_DATE()) < UNIX_TIMESTAMP(`timestamp`)) ORDER BY id LIMIT 1",
         (user_id,)
-    )
+    )[0]
     # If checked_in is true then else.
     if len(response) > 0:
-        if response[0][1]:
+        checked_in = DbConnector().send_query("SELECT `checked_in` FROM users WHERE `id` = %s", (user_id,))[0][0]
+        if response[0] == response[1]:
 
-            latest_timestamp = response[0][4]
+            latest_timestamp = response[0]
             # Gives a time delta object with the difference
             difference = datetime.datetime.utcnow() - latest_timestamp
-            return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), response[0][1]
+            return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), bool(checked_in)
         else:
             check_out_timestamp = response[0][4]
             check_in_timestamp = response[1][4]
             difference = check_out_timestamp - check_in_timestamp
-            return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), response[0][1]
-    return "0 Hours 0 Minutes"
+            return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), bool(checked_in)
+    return "0 Hours 0 Minutes", False
 
 
 def _str_format_delta(t_delta, fmt):
