@@ -54,24 +54,25 @@ def update_project():
     """
     # loads payload as json then converts it to a dictionary
     req = request.form
-    projectName = req['text']
-    citationCount = projectName.count('"')
-    startIndex = projectName.find('\"')
-    if startIndex != -1:  # i.e. if the first quote was found
-        endIndex = projectName.find('\"', startIndex + 1)
-    x = [m.start() for m in re.finditer(r'"', projectName)]
-    m = x[1]
-    split_text = projectName.split(m, 1)
-    old_name = split_text[0]
-    new_name = split_text[1]
-    new_name = new_name.strip()
-
-
-    startIndexOld = old_name.find('\"')
-    if startIndexOld != -1:  # i.e. if the first quote was found
-        endIndexOld = old_name.find('\"', startIndexOld + 1)
-        if startIndexOld != -1 and endIndexOld != -1:  # i.e. both quotes were found
-            checkerOld = True
+    updateString = req['text']
+    # If theres more than one citation in the string.
+    if updateString.count('"') > 1:
+        splt_char = '"'
+        K = 2
+        temp = updateString.split(splt_char)
+        split_text = splt_char.join(temp[:K]), splt_char.join(temp[K:])
+        old_name = split_text[0]
+        new_name = split_text[1]
+        old_name = re.sub(r'"', "", old_name)
+        new_name = re.sub(r'"', "", new_name)
+        old_name = old_name.strip()
+        new_name = new_name.strip()
+    else:
+        updateString = updateString.strip()
+        # Splits the string at the first space
+        split_text = updateString.split(" ", 1)
+        old_name = split_text[0]
+        new_name = split_text[1]
 
     if project_exists(old_name):
         # If it exists it goes here
