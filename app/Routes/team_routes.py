@@ -1,5 +1,5 @@
 import json
-
+import re
 from flask import Blueprint, abort, request
 from db_connector import DbConnector
 
@@ -56,9 +56,11 @@ def update_team():
     split_text = req['text'].split(" ", 1)
     old_name = split_text[0]
     new_name = split_text[1]
+    new_name = new_name.strip()
     if team_exists(old_name):
         # If it exists it goes here
         response = DbConnector().send_query("UPDATE teams SET name = %s WHERE name = %s", (new_name, old_name))
+
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response == "1 row(s) affected.":
             return "Team name successfully updated"

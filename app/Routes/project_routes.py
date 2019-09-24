@@ -55,6 +55,7 @@ def update_project():
     split_text = req['text'].split(" ", 1)
     old_name = split_text[0]
     new_name = split_text[1]
+    new_name = new_name.strip()
     if project_exists(old_name):
         # If it exists it goes here
         response = DbConnector().send_query("UPDATE project SET name = %s WHERE name = %s", (new_name, old_name))
