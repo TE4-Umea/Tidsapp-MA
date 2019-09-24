@@ -206,7 +206,7 @@ def get_worked_time(user_id):
             check_in_timestamp = response[1][4]
             difference = check_out_timestamp - check_in_timestamp
             return _str_format_delta(difference, "{hours} Hours {minutes} minutes"), response[0][1]
-    return "0 Hours 0 Minutes"
+    return "0 Hours 0 Minutes", False
 
 
 def _str_format_delta(t_delta, fmt):
