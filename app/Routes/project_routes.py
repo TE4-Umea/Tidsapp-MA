@@ -1,6 +1,7 @@
 from flask import Blueprint, abort, request
 from db_connector import DbConnector
 import json
+import re
 
 pr = Blueprint('pr', __name__)
 
@@ -14,10 +15,12 @@ def create_project():
     """
     # loads payload as json then converts it to a dictionary
     req = request.form
+    projectname = req['text']
+    projectname = projectname.strip()
     # Checks if the team dosen't exist
     if not project_exists(req['text']):
         # If it doesnt exists it goes here
-        response = DbConnector().send_query("INSERT INTO project (`id`, `name`) VALUES (NULL, %s)", (req['text'],))
+        response = DbConnector().send_query("INSERT INTO project (`id`, `name`) VALUES (NULL, %s)", (projectname,))
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response != "1 row(s) affected.":
             return "Error has occurred, Something went wrong"
@@ -52,12 +55,34 @@ def update_project():
     """
     # loads payload as json then converts it to a dictionary
     req = request.form
-    split_text = req['text'].split(" ", 1)
-    old_name = split_text[0]
-    new_name = split_text[1]
+    updateString = req['text']
+    # If theres more than one citation in the string.
+    if updateString.count('"') > 1:
+        splt_char = '"'
+        K = 2 # The instance of the splt_char where the string should be split
+        temp = updateString.split(splt_char)
+        # Splits at each occurence of splt_char
+        split_text = splt_char.join(temp[:K]), splt_char.join(temp[K:])
+        # Joins split_text, a tuple, with temp - split between the second instance of splt_char
+        old_name = split_text[0]
+        new_name = split_text[1]
+        old_name = re.sub(r'"', "", old_name)
+        new_name = re.sub(r'"', "", new_name)
+        # Removes all "
+        old_name = old_name.strip()
+        new_name = new_name.strip()
+        # Removes leading and trailing whitespace
+    else:
+        updateString = updateString.strip()
+        # Splits the string at the first space
+        split_text = updateString.split(" ", 1)
+        old_name = split_text[0]
+        new_name = split_text[1]
+
     if project_exists(old_name):
         # If it exists it goes here
         response = DbConnector().send_query("UPDATE project SET name = %s WHERE name = %s", (new_name, old_name))
+        
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response == "1 row(s) affected.":
             return "Project name successfully updated"
