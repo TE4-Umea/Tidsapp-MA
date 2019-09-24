@@ -1,6 +1,7 @@
 from flask import Blueprint, abort, request
 from db_connector import DbConnector
 import json
+import re
 
 pr = Blueprint('pr', __name__)
 
@@ -58,6 +59,7 @@ def update_project():
     old_name = split_text[0]
     new_name = split_text[1]
     new_name = new_name.strip()
+    # old_name = split_text.search('\"')
     if project_exists(old_name):
         # If it exists it goes here
         response = DbConnector().send_query("UPDATE project SET name = %s WHERE name = %s", (new_name, old_name))
