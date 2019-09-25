@@ -62,6 +62,7 @@ def update_team():
     # If theres more than one citation in the string.
     if updateString.count('"') > 1:
         splt_char = '"'
+        updateString = updateString.strip()
         # Checks whether it is the old or the new name that contains 2 words.
         if updateString.find('"') == 0:
             K = 2  # The instance of the splt_char where the string should be split
