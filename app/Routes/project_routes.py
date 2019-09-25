@@ -48,7 +48,7 @@ def delete_project():
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response == "1 row(s) affected.":
             return "Project: '" + projectname + "' successfully deleted"
-    return "Error has occurred, The specified project does not exist"
+    return "Error has occurred, The specified project '" + projectname + "' does not exist"
 
 
 @pr.route('update', methods=['POST'])
