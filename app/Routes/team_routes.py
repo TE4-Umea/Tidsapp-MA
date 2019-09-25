@@ -24,12 +24,12 @@ def create_team():
     if not team_exists(req['text']):
         # If it doesnt exists it goes here
         response = DbConnector().send_query("INSERT INTO teams (`id`, `name`) VALUES (NULL, %s)", (teamname,))
-        return "Team created successfully"
+        return "The team: '" + teamname + "' created successfully"
     # check if the team already exists
     if team_exists(req['text']):
         # If it exists it goes here
         res = DbConnector().send_query("SELECT id FROM teams WHERE name = %s", (teamname,))
-        return "Error has occurred, Team already exists"
+        return "Error has occurred, Team: '" + teamname + "' already exists"
 
 
 @tr.route('delete', methods=['POST'])
@@ -41,12 +41,13 @@ def delete_team():
     """
     # loads payload as json then converts it to a dictionary
     req = request.form
+    teamname = req['text']
     if team_exists(req['text']):
         # If it exists it goes here
         response = DbConnector().send_query("DELETE FROM teams WHERE name = %s", (req['text'],))
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response == "1 row(s) affected.":
-            return "Team successfully deleted"
+            return "Team: '" + teamname + "' successfully deleted"
     return "Error has occurred, The specified team does not exist"
 
 
@@ -95,7 +96,7 @@ def update_team():
 
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response == "1 row(s) affected.":
-            return "Team name successfully updated"
+            return "Team name successfully updated from '" + old_name + "' to '" + new_name + "'"
     return "Error has occurred, The specified team does not exist or something went wrong"
 
 

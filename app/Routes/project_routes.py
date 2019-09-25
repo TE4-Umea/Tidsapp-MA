@@ -24,12 +24,12 @@ def create_project():
     if not project_exists(req['text']):
         # If it doesnt exists it goes here
         response = DbConnector().send_query("INSERT INTO project (id, name) VALUES (NULL, %s)", (projectname,))
-        return "Project created successfully"
+        return "The project: '" + projectname + "' created successfully"
     # check if the project already exists
     if project_exists(req['text']):
         # If it exists it goes here
         res = DbConnector().send_query("SELECT id FROM project WHERE name = %s", (projectname,))
-        return "Error has occurred, Project already exists"
+        return "Error has occurred, project: '" + projectname + "' already exists"
 
 
 @pr.route('delete', methods=['POST'])
@@ -41,12 +41,13 @@ def delete_project():
     """
     # loads payload as json then converts it to a dictionary
     req = request.form
+    projectname = req['text']
     if project_exists(req['text']):
         # If it exists it goes here
         response = DbConnector().send_query("DELETE FROM project WHERE name = %s", (req['text'],))
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response == "1 row(s) affected.":
-            return "Project successfully deleted"
+            return "Project: '" + projectname + "' successfully deleted"
     return "Error has occurred, The specified project does not exist"
 
 
@@ -95,7 +96,7 @@ def update_project():
         
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response == "1 row(s) affected.":
-            return "Project name successfully updated"
+            return "Project name successfully updated from '" + old_name + "' to '" + new_name + "'"
     return "Error has occurred, The specified project does not exist or something went wrong"
 
 
