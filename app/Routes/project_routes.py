@@ -20,14 +20,16 @@ def create_project():
     # Check if the project name isn't empty
     if len(projectname) <= 0:
         return "Error: please don't leave the name on blank"
-    # Checks if the team dosen't exist
+    # Checks if the project dosen't exist
     if not project_exists(req['text']):
         # If it doesnt exists it goes here
-        response = DbConnector().send_query("INSERT INTO project (`id`, `name`) VALUES (NULL, %s)", (projectname,))
-        # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
-        if response != "1 row(s) affected.":
-            return "Error has occurred, Something went wrong"
-    return "Project created successfully"
+        response = DbConnector().send_query("INSERT INTO project (id, name) VALUES (NULL, %s)", (projectname,))
+        return "Project created successfully"
+    # check if the project already exists
+    if project_exists(req['text']):
+        # If it exists it goes here
+        res = DbConnector().send_query("SELECT id FROM project WHERE name = %s", (projectname,))
+        return "Error has occurred, Project already exists"
 
 
 @pr.route('delete', methods=['POST'])

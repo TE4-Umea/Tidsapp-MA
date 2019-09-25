@@ -24,10 +24,12 @@ def create_team():
     if not team_exists(req['text']):
         # If it doesnt exists it goes here
         response = DbConnector().send_query("INSERT INTO teams (`id`, `name`) VALUES (NULL, %s)", (teamname,))
-        # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
-        if response != "1 row(s) affected.":
-            return "Error has occurred, Something went wrong"
-    return "Team created successfully"
+        return "Team created successfully"
+    # check if the team already exists
+    if team_exists(req['text']):
+        # If it exists it goes here
+        res = DbConnector().send_query("SELECT id FROM teams WHERE name = %s", (teamname,))
+        return "Error has occurred, Team already exists"
 
 
 @tr.route('delete', methods=['POST'])
