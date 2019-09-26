@@ -8,36 +8,29 @@ from flask import Blueprint, abort, request
 hr = Blueprint('hr', __name__)
 
 
-@hr.route('general', methods=['POST'])
+@hr.route('', methods=['POST'])
 def help():
     """
     Returns all the help commands and explains their function.
     :return: str
     """
-
+    req = request.form
+    help = req['text']
+    help = help.strip()
     returnstring = "team. Help with team commands\n" \
                    "project. Help with project commands\n" \
                    "user. Help with user commands\n" \
                    "manager. Help with manager commands\n" \
                    "showall. Show all commands\n" \
                    "Use /specific_help [number] to get help" # Ska troligen ändras
-
-    return returnstring
-
-
-@hr.route('specific', methods=['POST'])
-def specific_help():
+    # switcher
     """
     This is a function similar to a switch case function
     Its purpose is to be able to print all of the different strings
     :return:
     """
-    # loads payload as json then converts it to a dictionary
-    req = request.form
-
-    # this is the switcher function that switches the 4 different cases and returns their string
     switcher = {
-        "team": "Team Help\n" 
+        "team": "Team Help\n"
                 "/ma-team-create [name] Create a team with a specified name\n"
                 "/ma-team-update [name] [new name] Update a teams name\n"
                 "/ma-team-delete [name] Deletes the specified team\n"
@@ -73,5 +66,14 @@ def specific_help():
     }
     # Prints the function
     func = switcher.get(req['text'])
-
-    return func
+    """
+    If nothing is typed: return all help commands
+    if a catergory is typed: return list of the commands
+    else: error message
+    """
+    if len(help) <= 0:
+        return returnstring
+    if func:
+        return func
+    else:
+        return "error"
