@@ -20,7 +20,7 @@ def help():
                    "3. Help with user commands" \
                    "4. Help with manager commands" \
                    "5. Show all commands" \
-                   "Use /"
+                   "Use /specific_help [number] to get help"
 
     return returnstring
 
