@@ -16,7 +16,8 @@ def create_project():
     # loads payload as json then converts it to a dictionary
     req = request.form
     projectname = req['text']
-    projectname = projectname.strip()
+    projectname = projectname.strip() # removes the spaces infront and after the name
+    projectname = projectname.replace('"', '') # removes the quotes from the names if you try to add them
     # Check if the project name isn't empty
     if len(projectname) <= 0:
         return "Error: please don't leave the name on blank"
