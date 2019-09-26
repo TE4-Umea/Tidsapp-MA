@@ -15,11 +15,11 @@ def help():
     :return: str
     """
 
-    returnstring = "1. Help with team commands " \
-                   "2. Help with project commands" \
-                   "3. Help with user commands" \
-                   "4. Help with manager commands" \
-                   "5. Show all commands" \
+    returnstring = "1. Help with team commands\n" \
+                   "2. Help with project commands\n" \
+                   "3. Help with user commands\n" \
+                   "4. Help with manager commands\n" \
+                   "5. Show all commands\n" \
                    "Use /specific_help [number] to get help"
 
     return returnstring
@@ -73,5 +73,6 @@ def specific_help():
     }
     # Prints the function
     func = switcher.get(req['text'])
+    text = req['text']
 
-    return func()
+    return func
