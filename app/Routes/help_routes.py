@@ -17,12 +17,13 @@ def help():
     req = request.form
     help = req['text']
     help = help.strip()
-    returnstring = "team. Help with team commands\n" \
-                   "project. Help with project commands\n" \
-                   "user. Help with user commands\n" \
-                   "manager. Help with manager commands\n" \
-                   "showall. Show all commands\n" \
-                   "Use /specific_help [number] to get help" # Ska troligen ändras
+    help = help.lower()
+    returnstring = "Use /help [names below] to get list of all commands for the specific category\n" \
+                   "team: Help with team commands\n" \
+                   "project: Help with project commands\n" \
+                   "user: Help with user commands\n" \
+                   "manager: Help with manager commands\n" \
+                   "showall: Show all commands"
     # switcher
     """
     This is a function similar to a switch case function
@@ -65,7 +66,7 @@ def help():
                    "/ma-m-move [name of user] [name of new team] Move user to a new team\n"
     }
     # Prints the function
-    func = switcher.get(req['text'])
+    func = switcher.get(help)
     """
     If nothing is typed: return all help commands
     if a catergory is typed: return list of the commands
