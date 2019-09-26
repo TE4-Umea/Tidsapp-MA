@@ -77,4 +77,4 @@ def help():
     if func:
         return func
     else:
-        return "Error: '" + help + "' doesn't exist"
+        return "Error: help category '" + help + "' doesn't exist"
