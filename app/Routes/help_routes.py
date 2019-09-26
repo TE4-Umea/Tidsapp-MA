@@ -3,29 +3,29 @@ from typing import Dict
 
 from flask import Blueprint, abort, request
 
-from db_connector import DBConnector
+# from db_connector import DBConnector
 
 hr = Blueprint('hr', __name__)
 
 
-@hr.route('help', methods=['POST'])
+@hr.route('general', methods=['POST'])
 def help():
     """
     Returns all the help commands and explains their function.
     :return: str
     """
 
-    returnstring = "1. Help with team commands " \
-                   "2. Help with project commands" \
-                   "3. Help with user commands" \
-                   "4. Help with manager commands" \
-                   "5. Show all commands" \
-                   "Use /specific_help [number] to get help"
+    returnstring = "team. Help with team commands\n" \
+                   "project. Help with project commands\n" \
+                   "user. Help with user commands\n" \
+                   "manager. Help with manager commands\n" \
+                   "showall. Show all commands\n" \
+                   "Use /specific_help [number] to get help" # Ska troligen ändras
 
     return returnstring
 
 
-@hr.route('specific_help', methods=['POST'])
+@hr.route('specific', methods=['POST'])
 def specific_help():
     """
     This is a function similar to a switch case function
@@ -37,41 +37,41 @@ def specific_help():
 
     # this is the switcher function that switches the 4 different cases and returns their string
     switcher = {
-        1: "Team Help" \
-           "/matcreate [name] Create a team with a specified name"
-           "/matupdate [name] [new name] Update a teams name"
-           "/matdelete [name] Deletes the specified team"
-           "/majointeam [name] Join a specific team"
-           "/mateams Shows all available teams",
-        2: "Project Help "
-           "/mapcreate [name] Create a project with a specified name"
-           "/mapupdate [name] [new name] Update a projects name"
-           "/mapdelete [name] Deletes the specified project"
-           "/majoinproject [name] Join a specific project"
-           "/maprojects Shows all your projects",
-        3: "User Help"
-           "/mastatus View information about yourself"
-           "/matrack Toggle tracking the time you spend working",
-        4: "Manager Help"
-           "/mamstatus View the status of all users"
-           "/mammove [name of user] [name of new team] Move user to a new team",
-        5: "Show all commands"
-           "/matcreate [name] Create a team with a specified name"
-           "/matupdate [name] [new name] Update a teams name"
-           "/matdelete [name] Deletes the specified team"
-           "/majointeam [name] Join a specific team"
-           "/mateams Shows all available teams"
-           "/mapcreate [name] Create a project with a specified name"
-           "/mapupdate [name] [new name] Update a projects name"
-           "/mapdelete [name] Deletes the specified project"
-           "/majoinproject [name] Join a specific project"
-           "/maprojects Shows all your projects"
-           "/mastatus View information about yourself"
-           "/matrack Toggle tracking the time you spend working"
-           "/mamstatus View the status of all users"
-           "/mammove [name of user] [name of new team] Move user to a new team"
+        "team": "Team Help\n" 
+                "/ma-team-create [name] Create a team with a specified name\n"
+                "/ma-team-update [name] [new name] Update a teams name\n"
+                "/ma-team-delete [name] Deletes the specified team\n"
+                "/ma-team-join [name] Join a specific team\n"
+                "/ma-teams Shows all available teams",
+        "project": "Project Help\n"
+                   "/ma-project-create [name] Create a project with a specified name\n"
+                   "/ma-project-update [name] [new name] Update a projects name\n"
+                   "/ma-project-delete [name] Deletes the specified project\n"
+                   "/ma-project-join [name] Join a specific project\n"
+                   "/ma-projects Shows all your projects",
+        "user": "User Help\n"
+                "/ma-status View information about yourself\n"
+                "/ma-track Toggle tracking the time you spend working",
+        "manager": "Manager Help\n"
+                   "/ma-m-status View the status of all users\n"
+                   "/ma-m-move [name of user] [name of new team] Move user to a new team",
+        "showall": "Show all commands\n"
+                   "/ma-team-create [name] Create a team with a specified name\n"
+                   "/ma-team-update [name] [new name] Update a teams name\n"
+                   "/ma-team-delete [name] Deletes the specified team\n"
+                   "/ma-team-join [name] Join a specific team\n"
+                   "/ma-teams Shows all available teams\n"
+                   "/ma-project-create [name] Create a project with a specified name\n"
+                   "/ma-project-update [name] [new name] Update a projects name\n"
+                   "/ma-project-delete [name] Deletes the specified project\n"
+                   "/ma-project-join [name] Join a specific project\n"
+                   "/ma-projects Shows all your projects\n"
+                   "/ma-status View information about yourself\n"
+                   "/ma-track Toggle tracking the time you spend working\n"
+                   "/ma-m-status View the status of all users\n"
+                   "/ma-m-move [name of user] [name of new team] Move user to a new team\n"
     }
     # Prints the function
     func = switcher.get(req['text'])
 
-    return func()
+    return func
