@@ -91,14 +91,19 @@ def update_team():
         old_name = split_text[0]
         new_name = split_text[1]
 
+    if team_exists(new_name):
+        # Gives an error if the name you want to change already exists
+        res = DbConnector().send_query("SELECT id FROM teams WHERE name = %s", (new_name,))
+        return "Error has occurred, team: '" + new_name + "' already exists"
+
     if team_exists(old_name):
-        # If it exists it goes here
+        # If the team name you want to change exist...
         response = DbConnector().send_query("UPDATE teams SET name = %s WHERE name = %s", (new_name, old_name))
 
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response == "1 row(s) affected.":
             return "Team name successfully updated from '" + old_name + "' to '" + new_name + "'"
-    return "Error has occurred, The specified team does not exist or something went wrong"
+    return "Error has occurred, The specified team '" + old_name + "' does not exist"
 
 
 @tr.route('display', methods=['POST'])

@@ -91,14 +91,19 @@ def update_project():
         old_name = split_text[0]
         new_name = split_text[1]
 
+    if project_exists(new_name):
+        # Gives an error if the name you want to change already exists
+        res = DbConnector().send_query("SELECT id FROM project WHERE name = %s", (new_name,))
+        return "Error has occurred, project: '" + new_name + "' already exists"
+
     if project_exists(old_name):
-        # If it exists it goes here
+        # If the project name you want to change exist...
         response = DbConnector().send_query("UPDATE project SET name = %s WHERE name = %s", (new_name, old_name))
         
         # If the sql response doesn't say '1 row(s) affected.' Then something went wrong.
         if response == "1 row(s) affected.":
             return "Project name successfully updated from '" + old_name + "' to '" + new_name + "'"
-    return "Error has occurred, The specified project does not exist or something went wrong"
+    return "Error has occurred, The specified project '" + old_name + "' does not exist"
 
 
 @pr.route('display', methods=['POST'])
@@ -123,9 +128,9 @@ def project_exists(project_name):
     :type project_name: str: The name of the project lookup.
     :rtype: bool
     """
-    team_id = get_project_id(project_name)
+    project_id = get_project_id(project_name)
     # Weird way of checking if a index exists in the database.
-    if len(team_id) > 0:
+    if len(project_id) > 0:
         return True
     return False
 
