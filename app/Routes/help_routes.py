@@ -77,4 +77,4 @@ def help():
     if func:
         return func
     else:
-        return "error"
+        return "Error: '" + help + "' doesn't exist"
