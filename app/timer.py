@@ -9,6 +9,7 @@ from Routes.project_routes import pr
 from Routes.team_routes import tr
 from Routes.manager_routes import mr
 from Routes.user_routes import ur
+from Routes.help_routes import hr
 
 load_dotenv()
 
@@ -34,5 +35,6 @@ app.register_blueprint(pr, url_prefix='/project/')
 app.register_blueprint(tr, url_prefix='/team/')
 app.register_blueprint(mr, url_prefix='/manager/')
 app.register_blueprint(ur, url_prefix='/user/')
+app.register_blueprint(hr, url_prefix='/help/')
 if __name__ == "__main__":
     app.run(host=os.getenv('FLASK_URL'), port=os.getenv('FLASK_PORT'), debug=os.getenv('FLASK_DEBUG'))
