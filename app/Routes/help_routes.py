@@ -3,8 +3,6 @@ from typing import Dict
 
 from flask import Blueprint, abort, request
 
-# from db_connector import DBConnector
-
 hr = Blueprint('hr', __name__)
 
 
