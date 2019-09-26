@@ -3,8 +3,6 @@ from typing import Dict
 
 from flask import Blueprint, abort, request
 
-# from db_connector import DBConnector
-
 hr = Blueprint('hr', __name__)
 
 
@@ -20,7 +18,7 @@ def help():
                    "user. Help with user commands\n" \
                    "manager. Help with manager commands\n" \
                    "showall. Show all commands\n" \
-                   "Use /specific_help [number] to get help" # Ska troligen ändras
+                   "Use /ma-help-specific [category] to get help"
 
     return returnstring
 
